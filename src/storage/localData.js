@@ -1,34 +1,11 @@
-import playerData from './playerData';
+import create from './create'
 
 const localData = (() => {
 
     const createNewPlayerData = (key) => {
-        const playerData = {
-            'name': key,
-            'points': {
-                'level': 1,
-                'xp': 0
-            },
-            'situation': {
-                'currentHp': 10,
-                'currentMp': 10,
-                'currentEnergy': 100,
-                'buffs': [],
-                'debuffs': []
-            },
-            'stats': {
-                'maxHp': 10,
-                'maxMp': 10,
-                'maxEnergy': 100,
-                'for': 1,
-                'int': 1,
-                'dex': 1,
-                'free': 0
-            },
-            'inventory': []
-        };
+        playerData = create.newPlayer(key);
         localStorage.setItem(key, JSON.stringify(playerData));
-        return({ key: value });
+        return({ key: playerData });
     };
 
     const updatePlayerData = (key, value) => {
@@ -39,7 +16,7 @@ const localData = (() => {
                 reject('No value match input on localStorage');
             }
         }).then((key, value) => {
-            localStorage.removeItem(key).seItem(key, JSON.stringify(value));
+            localStorage.removeItem(key).setItem(key, JSON.stringify(value));
             return ( { key: value } );
         }).catch((err) => {
             throw new Error(err);
