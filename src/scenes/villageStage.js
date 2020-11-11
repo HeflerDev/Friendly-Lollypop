@@ -1,4 +1,4 @@
-import phaser from 'phaser'
+import Phaser from 'phaser'
 
 export default class VillageStage extends Phaser.Scene {
 

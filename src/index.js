@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 
-import Menu from '../src/scenes/menu';
-
+import Menu from './scenes/menu';
+import Village from './scenes/village';
+import VillageStage from './scenes/villageStage';
 
 const config = {
     type: Phaser.AUTO,
@@ -18,7 +19,7 @@ const config = {
             debug: false
         }
     },
-    scene: [Menu]
+    scene: [VillageStage, Village, Menu]
 }
 
 export default new Phaser.Game(config);
