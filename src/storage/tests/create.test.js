@@ -1,7 +1,7 @@
-const playerData = require('../playerData');
+const create = require('../create');
 
 test('test', () => {
-    expect(playerData('Sample'))
+    expect(create.newPlayer('Sample'))
         .toEqual({
             'name': 'Sample',
             'points': 0,

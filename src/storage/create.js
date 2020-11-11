@@ -1,6 +1,6 @@
-const playerData = (() => {
+const create = (() => {
 
-    const createNewPlayer = (key) => {
+    const newPlayer = (key) => {
         return {
             'name': key,
             'points': 0,
@@ -36,8 +36,27 @@ const playerData = (() => {
         }
     };
 
-    return createNewPlayer
+    const newItem = (name, description = '', type, effects, weight) => {
+        if (
+            typeof name === 'string' &&
+            typeof description === 'string' &&
+            typeof type === 'string' &&
+            Array.isArray(effects)
+        ) {
+            return {
+                'name': name,
+                'description': description,
+                'type': type,
+                'effects': effects,
+                'weight': weight
+            }
+        } else {
+            throw new Error('Invalid Parameter Format');
+        }
+    };
+
+    return { newPlayer, newItem }
 
 })();
 
-module.exports = playerData
+module.exports = create;
