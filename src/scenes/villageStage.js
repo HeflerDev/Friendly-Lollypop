@@ -38,6 +38,7 @@ export default class VillageStage extends Phaser.Scene {
         this.load.tilemapTiledJSON("villageTiles", VillageStageTileMap);
 
         this.load.image('background', MountainsBg);
+        this.load.image('grid', Grid);
 
         this.load.spritesheet('bat', BatSprite, { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('player', RogueSprite, { frameWidth: 32, frameHeight: 32});
@@ -68,6 +69,8 @@ export default class VillageStage extends Phaser.Scene {
             .setSize(8, 28, 16);
 
         this.physics.add.collider(player, layer);
+
+        this.add.image(6,12, 'grid');
 
         this.anims.create({
             key: 'idle',
