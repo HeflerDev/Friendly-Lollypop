@@ -7,7 +7,7 @@ import VillageStage from './scenes/villageStage';
 const config = {
     type: Phaser.AUTO,
     width: 800,
-    height: 520,
+    height: 512,
     parent: 'phaser-container',
     dom: {
         createContainer: true
@@ -15,7 +15,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y : 300 },
+            gravity: { y : 0 },
             debug: false
         }
     },
