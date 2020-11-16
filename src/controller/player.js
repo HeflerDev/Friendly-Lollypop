@@ -1,9 +1,10 @@
 import RogueSprite from '../assets/characters/rogue.png';
-import parseLayer from './parseLayer';
+import ParseLayer from './parseLayer';
+import Create from '../storage/create';
 
+const Player = (() => {
+    const play = Create.newPlayer('Johnny');
 
-const player = (() => {
-    let isAlive = true;
     const controls = (scene) => {
         return scene.input.keyboard.addKeys('W,S,A,D');
     }
@@ -58,42 +59,42 @@ const player = (() => {
         }
 
         const createMovement = (playerBody, layer) => {
-           if (isAlive) {
+           if (play.situation.isAlive) {
                 if (Phaser.Input.Keyboard.JustDown(controls(scene).W)) {
-                    if (parseLayer.isBlocked(playerBody, layer).bellow) {
+                    if (ParseLayer.isBlocked(playerBody, layer).bellow) {
                         playerBody.y -= 32;
                     }
                 }
 
-                if (Phaser.Input.Keyboard.JustDown(player.controls(scene).D)) {
-                    if (!parseLayer.isBlocked(playerBody, layer).onRight) {
+                if (Phaser.Input.Keyboard.JustDown(controls(scene).D)) {
+                    if (!ParseLayer.isBlocked(playerBody, layer).onRight) {
                         playerBody.anims.play('idle').flipX = false;
                         playerBody.x += 16;
-                        if (!parseLayer.isBlocked(playerBody, layer).bellow) {
+                        if (!ParseLayer.isBlocked(playerBody, layer).bellow) {
                             playerBody.y += 16;
                         };
                     } else {
                         console.log('right is blocked')
                     }
-                } else if (Phaser.Input.Keyboard.JustDown(player.controls(scene).A)) {
-                    if (!parseLayer.isBlocked(playerBody, layer).onLeft) {
+                } else if (Phaser.Input.Keyboard.JustDown(controls(scene).A)) {
+                    if (!ParseLayer.isBlocked(playerBody, layer).onLeft) {
                         playerBody.anims.play('idle').flipX = true;
                         playerBody.x -= 16;
-                        if (!parseLayer.isBlocked(playerBody, layer).bellow) {
+                        if (!ParseLayer.isBlocked(playerBody, layer).bellow) {
                             playerBody.y += 16;
                         };
                     } else {
                         console.log('left is blocked');
                     }
-                } else if (Phaser.Input.Keyboard.JustDown(player.controls(scene).S)) {
-                    if (!parseLayer.isBlocked(playerBody, layer).bellow) {
+                } else if (Phaser.Input.Keyboard.JustDown(controls(scene).S)) {
+                    if (!ParseLayer.isBlocked(playerBody, layer).bellow) {
                         playerBody.y += 16;
                     };
                 } else {
                         playerBody.anims.play('idle', true);
                 }
-                if (parseLayer.isFatal(playerBody, layer, isAlive)) {
-                    isAlive = false;
+                if (ParseLayer.isFatal(playerBody, layer, play.situation.isAlive)) {
+                    play.situation.isAlive = false;
                     scene.input.keyboard.removeAllKeys(true);
                     playerBody.anims.play('die');
                 }
@@ -115,4 +116,4 @@ const player = (() => {
 
 })();
 
-export default player;
+export default Player;

@@ -21,7 +21,24 @@ const parseLayer = (() => {
         }
     }
 
+    const hasFoe = (player, foe, layer) => {
+        const playerX = layer.getTileAtWorldXY(player.x, player.y, true).x;
+        const playerY = layer.getTileAtWorldXY(player.x, player.y, true).y;
+
+        const foeX = layer.getTileAtWorldXY(foe.x, foe.y, true).x;
+        const foeY = layer.getTileAtWorldXY(foe.x, foe.y, true).y;
+
+        const verifyX = playerX - foeX;
+        const verifyY = playerY - foeY;
+
+        if (verifyX >= -1 && verifyX <= 1 && verifyY == 0) {
+            return true;
+        }
+        return false;
+    };
+
     return {
+        hasFoe,
         isBlocked,
         isFatal
     }

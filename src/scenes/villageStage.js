@@ -1,37 +1,44 @@
-
-// Library
 import Phaser from 'phaser';
 
-// Assets
-// Images
-import MountainsBg from '../assets/backgrounds/mountain_background.png';
-import Grid from '../assets/backgrounds/grid.png';
-
-import player from '../controller/player';
+import Player from '../controller/player';
+import foe from '../controller/foe';
 import stages from '../controller/stages';
-import parseLayer from '../controller/parseLayer';
+import ParseLayer from '../controller/parseLayer';
 
+var playerChar = null;
 var playerBody = null;
 var stage = null;
-
+var stageInst = null;
+var bat = null;
+var foeBody;
 export default class VillageStage extends Phaser.Scene {
     constructor() {
         super('villagestage');
+        bat = foe.createNew(this).bat('bat');
+        playerChar = Player.initialize(this);
+        stageInst = stages.village(this);
     }
 
     preload() {
-        player.initialize(this).animations().loadSprites();
-        stages.village(this).load();
+        bat.animations().loadSprites();
+        playerChar.animations().loadSprites();
+        stageInst.load();
     }
 
     create() {
-        stage = stages.village(this).build();
-        playerBody = player.initialize(this).character().createPlayer();
-        player.initialize(this).animations().createAnimations();
+        stage = stageInst.build();
+
+        playerBody = playerChar.character().createPlayer();
+        playerChar.animations().createAnimations();
+
+        bat.animations().createSprites();
+        foeBody = bat.body().createBody();
+        bat.animations().animate(foeBody);
     }
 
     update() {
-        player.initialize(this).createMovement(playerBody, stage.layer);
+        playerChar.createMovement(playerBody, stage.layer);
+        ParseLayer.hasFoe(playerBody, foeBody, stage.layer);
     }
 
 }

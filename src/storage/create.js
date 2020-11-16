@@ -19,7 +19,8 @@ const create = (() => {
                 'currentHp': 10,
                 'currentMp': 10,
                 'currentEnergy': 100,
-                'effects': []
+                'effects': [],
+                'isAlive': true
             },
             'inventory': {
                 'items': [],
