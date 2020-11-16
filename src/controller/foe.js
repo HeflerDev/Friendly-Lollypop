@@ -1,9 +1,17 @@
 import BatSprite from '../assets/characters/bat.png';
+import parseLayer from './parseLayer';
 
 const foe = (() => {
 
     const createNew = (scene) => {
-        const bat = (id) => {
+        const Bat = (id) => {
+
+            const info = {
+                hp: 5,
+                dmg: 2,
+                isAlive: true
+            };
+
             const animations = () => {
                 const loadSprites = () => {
                     scene.load.spritesheet(id, BatSprite, { frameWidth: 32, frameHeight: 32 });
@@ -37,13 +45,37 @@ const foe = (() => {
                     createBody
                 }
             };
+
+            const behavior = (difference) => {
+                let result = [];
+                if (difference.verifyX > 0) {
+                    result.push(+8);
+                } else if (difference.verifyX < 0) {
+                    result.push(-8);
+                } else {
+                    result.push(0);
+                }
+
+                if (difference.verifyY > 0) {
+                    result.push(+8);
+                } else if (difference.verifyY < 0) {
+                    result.push(-8);
+                } else {
+                    result.push(0);
+                }
+
+                return result;
+            };
+
             return {
+                behavior,
+                info,
                 animations,
                 body
             }
         };
         return {
-            bat
+            Bat
         }
     };
     return {

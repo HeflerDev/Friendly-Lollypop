@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import Player from '../controller/player';
 import foe from '../controller/foe';
 import stages from '../controller/stages';
-import ParseLayer from '../controller/parseLayer';
+import parseLayer from '../controller/parseLayer';
 
 var playerChar = null;
 var playerBody = null;
@@ -14,7 +14,7 @@ var foeBody;
 export default class VillageStage extends Phaser.Scene {
     constructor() {
         super('villagestage');
-        bat = foe.createNew(this).bat('bat');
+        bat = foe.createNew(this).Bat('bat');
         playerChar = Player.initialize(this);
         stageInst = stages.village(this);
     }
@@ -37,8 +37,14 @@ export default class VillageStage extends Phaser.Scene {
     }
 
     update() {
-        playerChar.createMovement(playerBody, stage.layer);
-        ParseLayer.hasFoe(playerBody, foeBody, stage.layer);
+        playerChar.createMovement(playerBody, stage.layer, () => {
+            const result = bat.behavior(parseLayer.positioning(playerBody, foeBody, stage.layer));
+            const [resultX, resultY] = result;
+            foeBody.x += resultX;
+            if (!parseLayer.isBlocked(foeBody, stage.layer).bellow) {
+                foeBody.y += resultY;
+            }
+        });
     }
 
 }

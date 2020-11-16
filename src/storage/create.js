@@ -33,7 +33,7 @@ const create = (() => {
                 'legs': {},
                 'leftHand': {},
                 'rightHand': {}
-            }
+            },
         }
     };
 
