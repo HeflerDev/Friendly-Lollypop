@@ -4,9 +4,6 @@ import create from '../storage/create';
 const foesModule = (() => {
   const Foe = (id, scene) => {
     const bat = {
-
-      information: create.newAnimalData(id),
-
       animations: {
         loadSprites() {
             scene.load.spritesheet(id, BatSprite, { frameWidth: 32, frameHeight: 32 })
@@ -25,9 +22,12 @@ const foesModule = (() => {
       },
 
       body: {
-        createBody() {
-          const foeBody = scene.physics.add.sprite(336, 336, id);
-          return foeBody;
+        createBody(x, y) {
+          const body = scene.physics.add.sprite(x, y, id);
+          return {
+              body,
+              'data': create.newAnimalData(id)
+          }
         },
       },
 
