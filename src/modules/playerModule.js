@@ -25,23 +25,30 @@ const playerModule = (() => {
       createSprites() {
         scene.anims.create({
           key: 'idle',
-          frames: scene.anims.generateFrameNumbers('player', { start: 0, end: 9 }),
+          frames: scene.anims.generateFrameNumbers(name, { start: 0, end: 9 }),
           frameRate: 1,
           repeat: -1,
         });
 
         scene.anims.create({
           key: 'die',
-          frames: scene.anims.generateFrameNumbers('player', { start: 40, end: 49 }),
+          frames: scene.anims.generateFrameNumbers(name, { start: 40, end: 49 }),
           frameRate: 8,
           repeat: 0,
         });
 
         scene.anims.create({
           key: 'attack',
-          frames: scene.anims.generateFrameNumbers('player', { start: 30, end: 39 }),
+          frames: scene.anims.generateFrameNumbers(name, { start: 30, end: 39 }),
           frameRate: 60,
           repeat: 0,
+        });
+
+        scene.anims.create({
+          key: 'blink',
+          frames: scene.anims.generateFrameNumbers(name, { start: 50, end: 51 }),
+          framerate: 0.5,
+          repeat: -1,
         });
       },
 
@@ -49,7 +56,7 @@ const playerModule = (() => {
 
     const controls = {
       addKeys() {
-        scene.input.keyboard.addKeys('W,S,A,D');
+        return scene.input.keyboard.addKeys('W,S,A,D');
       },
       movePlayer(playerBody, layer, hostileMoves) {
         if (information.situation.isAlive) {
@@ -69,7 +76,9 @@ const playerModule = (() => {
                 playerBody.y += 16;
               }
             } else {
-              throw new Error('Right is Blocked');
+              playerBody.anims.play('blink');
+              information.situation.isAlive = false;
+              setTimeout(() => { information.situation.isAlive = true; }, 500);
             }
           } else if (Phaser.Input.Keyboard.JustDown(this.addKeys().A)) {
             if (!parseLayer.isBlocked(playerBody, layer).onLeft) {
@@ -80,7 +89,9 @@ const playerModule = (() => {
                 playerBody.y += 16;
               }
             } else {
-              throw new Error('Left is Blocked');
+              playerBody.anims.play('blink');
+              information.situation.isAlive = false;
+              setTimeout(() => { information.situation.isAlive = true; }, 500);
             }
           } else if (Phaser.Input.Keyboard.JustDown(this.addKeys().S)) {
             hostileMoves();

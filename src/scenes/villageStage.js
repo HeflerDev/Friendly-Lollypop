@@ -29,18 +29,48 @@ export default class VillageStage extends Phaser.Scene {
     this.player.animations.createSprites();
 
     this.foe.animations.createSprites();
-    this.foeBody = this.foe.body.createBody();
+    this.foeBody = this.foe.body.createBody(336, 336);
+    const bd = this.foe.body.createBody(304, 336);
+      this.foe.animations.animate(bd);
     this.foe.animations.animate(this.foeBody);
   }
 
   update() {
     this.player.controls.movePlayer(this.playerBody, this.map.layer, () => {
-      const result = this.foe.behavior.react(parseLayer.positioning(this.playerBody, this.foeBody, this.map.layer));
-      const [resultX, resultY] = result;
-      this.foeBody.x += resultX;
-      if (!parseLayer.isBlocked(this.foeBody, this.map.layer).bellow) {
-        this.foeBody.y += resultY;
+      if (this.swapTurns()) {
+        while (this.foeTurn()) {
+          const result = this.foe.behavior.react(parseLayer.positioning(
+            this.playerBody,
+            this.foeBody,
+            this.map.layer,
+          ));
+          const [resultX, resultY] = result;
+          this.foeBody.x += resultX;
+          if (!parseLayer.isBlocked(this.foeBody, this.map.layer).bellow) {
+            this.foeBody.y += resultY;
+          }
+        }
       }
     });
+  }
+
+  swapTurns() {
+    const info = this.player.information;
+    if (info.situation.moves < info.stats.dex) {
+      this.player.information.situation.moves += 1;
+      return false;
+    }
+    this.player.information.situation.moves = 0;
+    return true;
+  }
+
+  foeTurn() {
+    const info = this.foe.information;
+    if (info.moves < info.stats.dex) {
+      this.foe.information.moves += 1;
+      return true;
+    }
+    this.foe.information.moves = 0;
+    return false;
   }
 }

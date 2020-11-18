@@ -10,13 +10,14 @@ const create = (() => {
       maxEnergy: 100,
       for: 1,
       int: 1,
-      dex: 1,
+      dex: 2,
       free: 0,
     },
     situation: {
       currentHp: 10,
       currentMp: 10,
       currentEnergy: 100,
+        moves: 0,
       effects: [],
       isAlive: true,
     },
@@ -42,7 +43,8 @@ const create = (() => {
             int:0,
             dex:3,
         },
-        currentHp:3
+        currentHp:3,
+        moves:0
     });
 
   const newItem = (name, description = '', type, effects, weight) => {

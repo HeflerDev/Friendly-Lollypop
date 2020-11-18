@@ -26,7 +26,7 @@ const foesModule = (() => {
 
       body: {
         createBody() {
-          const foeBody = scene.physics.add.sprite(64, 336, id);
+          const foeBody = scene.physics.add.sprite(336, 336, id);
           return foeBody;
         },
       },
@@ -35,23 +35,27 @@ const foesModule = (() => {
         react(difference) {
           const result = [];
           if (difference.verifyX > 0) {
-            result.push(+8);
+            result.push(+16);
           } else if (difference.verifyX < 0) {
-            result.push(-8);
+            result.push(-16);
           } else {
             result.push(0);
           }
 
           if (difference.verifyY > 0) {
-            result.push(+8);
+            result.push(+16);
           } else if (difference.verifyY < 0) {
-            result.push(-8);
+            result.push(-16);
           } else {
             result.push(0);
           }
 
           return result;
         },
+        makeMove(foeBody, moveX, moveY) {
+            foeBody.x += moveX;
+            foeBody.y += moveY;
+        }
       },
 
     };
