@@ -56,9 +56,9 @@ const playerModule = (() => {
 
     const controls = {
       addKeys() {
-        return scene.input.keyboard.addKeys('W,S,A,D');
+        return scene.input.keyboard.addKeys('W,S,A,D,SPACE');
       },
-      movePlayer(playerBody, layer, hostileMoves) {
+      movePlayer(playerBody, layer, hostileMoves, attackMove) {
         if (information.situation.isAlive) {
           if (Phaser.Input.Keyboard.JustDown(this.addKeys().W)) {
             if (parseLayer.isBlocked(playerBody, layer).bellow) {
@@ -66,6 +66,10 @@ const playerModule = (() => {
               hostileMoves();
             }
           }
+
+            if (Phaser.Input.Keyboard.JustDown(this.addKeys().SPACE)) {
+                attackMove();
+            }
 
           if (Phaser.Input.Keyboard.JustDown(this.addKeys().D)) {
             if (!parseLayer.isBlocked(playerBody, layer).onRight) {

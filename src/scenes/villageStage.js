@@ -17,6 +17,8 @@ export default class VillageStage extends Phaser.Scene {
     this.bat = foesModule.Foe('bat', this).bat;
     this.enemies = [];
 
+      this.isColliding = false;
+      this.currentFoe = null;
   }
 
   preload() {
@@ -26,44 +28,64 @@ export default class VillageStage extends Phaser.Scene {
   }
 
   create() {
-
     this.map = this.stage.build();
 
     this.playerBody = this.player.body.createPlayer();
     this.player.animations.createSprites();
 
-      this.bat.animations.createSprites();
-      this.enemies.push(this.bat.body.createBody(200, 200))
-      this.enemies.push(this.bat.body.createBody(300, 300))
-      this.enemies.push(this.bat.body.createBody(400, 400))
+    this.bat.animations.createSprites();
+    this.enemies.push(this.bat.body.createBody(200, 200));
+    this.enemies.push(this.bat.body.createBody(300, 300));
+    this.enemies.push(this.bat.body.createBody(400, 400));
 
-      this.enemies.forEach((enemy) => {
-        this.bat.animations.animate(enemy.body);
-      });
+    this.enemies.map((enemy) => {
+      this.bat.animations.animate(enemy.body);
+        this.physics.add.collider(enemy.body, this.playerBody, () => {
+            this.isColliding = true;
+            this.currentFoe = enemy;
+        });
 
+    });
   }
 
   update() {
     this.player.controls.movePlayer(this.playerBody, this.map.layer, () => {
-        const fo = this.enemies.push(this.bat.body.createBody(250, 250))
-        this.bat.animations.animate(this.enemies[fo-1].body);
       if (this.swapTurns()) {
         this.enemies.forEach((enemy) => {
-            while(this.foeTurn(enemy)) {
-                const result = this.bat.behavior.react(parseLayer.positioning(
-                    this.playerBody,
-                    enemy.body,
-                    this.map.layer
-                ));
-                const [resultX, resultY] = result;
-                enemy.body.x += resultX;
-                if (!parseLayer.isBlocked(enemy.body, this.map.layer).bellow) {
-                    enemy.body.y += resultY;
-                }
+          while (this.foeTurn(enemy)) {
+            const result = this.bat.behavior.react(parseLayer.positioning(
+              this.playerBody,
+              enemy.body,
+              this.map.layer,
+            ));
+            const [resultX, resultY] = result;
+            enemy.body.x += resultX;
+            if (!parseLayer.isBlocked(enemy.body, this.map.layer).bellow) {
+              enemy.body.y += resultY;
             }
+          }
         });
       }
+    }, () => {
+        if (this.isColliding) {
+            if (this.player.information.situation.moves < this.player.information.stats.dex) {
+                this.currentFoe.data.currentHp -= 1;
+                this.player.information.situation.moves += 1;
+            } else {
+                console.log('Turn End')
+            }
+        } else {
+
+        };
     });
+      if (this.currentFoe) {
+        if (this.currentFoe.data.currentHp <= 0) {
+            this.currentFoe.body.destroy();
+        }
+      }
+      this.isColliding = false;
+      this.currentFoe = null;
+
   }
 
   swapTurns() {
