@@ -6,7 +6,7 @@ const foesModule = (() => {
     const bat = {
       animations: {
         loadSprites() {
-            scene.load.spritesheet(id, BatSprite, { frameWidth: 32, frameHeight: 32 })
+          scene.load.spritesheet(id, BatSprite, { frameWidth: 32, frameHeight: 32 });
         },
         animate(body) {
           body.anims.play('batIdle');
@@ -25,39 +25,46 @@ const foesModule = (() => {
         createBody(x, y) {
           const body = scene.physics.add.sprite(x, y, id);
           return {
-              body,
-              'data': create.newAnimalData(id)
-          }
+            body,
+            data: create.newAnimalData(id),
+          };
         },
       },
 
       behavior: {
-        react(difference) {
-          const result = [];
-          if (difference.verifyX > 0) {
-            result.push(+16);
-          } else if (difference.verifyX < 0) {
-            result.push(-16);
-          } else {
-            result.push(0);
-          }
+        react: {
+          move(foeBody, difference) {
+            const result = [];
+            if (difference.verifyX > 0) {
+              result.push(+16);
+            } else if (difference.verifyX < 0) {
+              result.push(-16);
+            } else {
+              result.push(0);
+            }
 
-          if (difference.verifyY > 0) {
-            result.push(+16);
-          } else if (difference.verifyY < 0) {
-            result.push(-16);
-          } else {
-            result.push(0);
-          }
+            if (difference.verifyY > 0) {
+              result.push(+16);
+            } else if (difference.verifyY < 0) {
+              result.push(-16);
+            } else {
+              result.push(0);
+            }
 
-          return result;
+            const [posX, posY] = result;
+            foeBody.x += posX;
+            foeBody.y += posY;
+          },
+            attack(enemyBody, playerBody) {
+                scene.physics.add.overlap(playerBody, enemyBody, () => {
+                    enemyBody.body.touching.none = false;
+                })
+                if (!enemyBody.body.touching.none) {
+                    scene.player.information.situation.currentHp -= 1;
+                }
+            }
         },
-        makeMove(foeBody, moveX, moveY) {
-            foeBody.x += moveX;
-            foeBody.y += moveY;
-        }
       },
-
     };
     return {
       bat,

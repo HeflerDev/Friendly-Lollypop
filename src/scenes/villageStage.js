@@ -1,9 +1,11 @@
+// Base Library
 import Phaser from 'phaser';
-
+// Project Modules
 import playerModule from '../modules/playerModule';
 import foesModule from '../modules/foesModule';
 import stagesModule from '../modules/stagesModule';
-import parseLayer from '../modules/parseLayer';
+import layerModule from '../modules/layerModule';
+import hudModule from '../modules/hudModule';
 
 export default class VillageStage extends Phaser.Scene {
   constructor() {
@@ -12,13 +14,16 @@ export default class VillageStage extends Phaser.Scene {
     this.player = playerModule.Player('Johnny', this);
     this.playerBody = null;
     this.stage = stagesModule.Stage(this).village;
+
     this.map = null;
 
     this.bat = foesModule.Foe('bat', this).bat;
     this.enemies = [];
 
-      this.isColliding = false;
-      this.currentFoe = null;
+    this.isColliding = false;
+    this.currentFoe = null;
+
+    this.hud = hudModule.Hud(this.player.information, this);
   }
 
   preload() {
@@ -28,6 +33,7 @@ export default class VillageStage extends Phaser.Scene {
   }
 
   create() {
+    this.hud.elements.create(0, 0);
     this.map = this.stage.build();
 
     this.playerBody = this.player.body.createPlayer();
@@ -40,57 +46,55 @@ export default class VillageStage extends Phaser.Scene {
 
     this.enemies.map((enemy) => {
       this.bat.animations.animate(enemy.body);
-        this.physics.add.collider(enemy.body, this.playerBody, () => {
-            this.isColliding = true;
-            this.currentFoe = enemy;
-        });
-
+      this.physics.add.collider(enemy.body, this.playerBody, () => {
+        this.isColliding = true;
+        this.currentFoe = enemy;
+      });
     });
   }
+
 
   update() {
     this.player.controls.movePlayer(this.playerBody, this.map.layer, () => {
       if (this.swapTurns()) {
-        this.enemies.forEach((enemy) => {
+        this.enemies.map((enemy) => {
           while (this.foeTurn(enemy)) {
-            const result = this.bat.behavior.react(parseLayer.positioning(
-              this.playerBody,
-              enemy.body,
-              this.map.layer,
-            ));
-            const [resultX, resultY] = result;
-            enemy.body.x += resultX;
-            if (!parseLayer.isBlocked(enemy.body, this.map.layer).bellow) {
-              enemy.body.y += resultY;
+            if (enemy.body.active) {
+                const positions = layerModule.Layer.positioning(this.playerBody, enemy.body, this.map.layer);
+                this.bat.behavior.react.move(enemy.body, positions);
+                this.bat.behavior.react.attack(enemy.body, this.playerBody);
             }
           }
         });
       }
     }, () => {
-        if (this.isColliding) {
-            if (this.player.information.situation.moves < this.player.information.stats.dex) {
-                this.currentFoe.data.currentHp -= 1;
-                this.player.information.situation.moves += 1;
-            } else {
-                console.log('Turn End')
-            }
+      if (this.isColliding) {
+        if (this.player.information.situation.moves <= this.player.information.stats.dex - 1) {
+          this.currentFoe.data.currentHp -= 1;
+          this.player.information.situation.moves += 1;
         } else {
-
-        };
-    });
-      if (this.currentFoe) {
-        if (this.currentFoe.data.currentHp <= 0) {
-            this.currentFoe.body.destroy();
+          console.log('Turn End');
         }
       }
-      this.isColliding = false;
-      this.currentFoe = null;
-
+    });
+    if (this.currentFoe) {
+      if (this.currentFoe.data.currentHp <= 0) {
+        this.currentFoe.body.destroy();
+      }
+    }
+    if (this.overLap != null) {
+      this.overLap.destroy();
+    }
+    this.isColliding = false;
+    this.currentFoe = null;
+    this.player.logic.trackHealth(this.playerBody);
+    this.hud.elements.update();
+            // console.log(this.enemies);
   }
 
   swapTurns() {
     const info = this.player.information;
-    if (info.situation.moves < info.stats.dex) {
+    if (info.situation.moves < info.stats.dex - 1) {
       this.player.information.situation.moves += 1;
       return false;
     }
@@ -106,4 +110,5 @@ export default class VillageStage extends Phaser.Scene {
     foe.data.moves = 0;
     return false;
   }
+
 }
