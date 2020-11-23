@@ -49,7 +49,7 @@ const playerModule = (() => {
         scene.anims.create({
           key: 'attack',
           frames: scene.anims.generateFrameNumbers(name, { start: 30, end: 39 }),
-          frameRate: 60,
+          frameRate: 20,
           repeat: 0,
         });
 
@@ -60,6 +60,12 @@ const playerModule = (() => {
           repeat: -1,
         });
       },
+
+        playSprites(body, spriteKey, miliseconds) {
+          body.anims.play(spriteKey);
+          scene.player.information.situation.isAlive = false;
+          setTimeout(() => { information.situation.isAlive = true }, miliseconds);
+        }
 
     };
 
@@ -116,7 +122,9 @@ const playerModule = (() => {
               playerBody.y += 16;
             }
           } else {
-            playerBody.anims.play('idle', true);
+            if (information.situation.isAlive) {
+              playerBody.anims.play('idle', true);
+            }
           }
           if (layerModule.Layer.isFatal(playerBody, layer, information.situation.isAlive)) {
             information.situation.isAlive = false;

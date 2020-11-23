@@ -57,7 +57,7 @@ export default class VillageStage extends Phaser.Scene {
   update() {
     this.player.controls.movePlayer(this.playerBody, this.map.layer, () => {
       if (this.swapTurns()) {
-        this.enemies.map((enemy) => {
+        this.enemies.forEach((enemy) => {
           while (this.foeTurn(enemy)) {
             if (enemy.body.active) {
                 const positions = layerModule.Layer.positioning(this.playerBody, enemy.body, this.map.layer);
@@ -70,11 +70,17 @@ export default class VillageStage extends Phaser.Scene {
     }, () => {
       if (this.isColliding) {
         if (this.player.information.situation.moves <= this.player.information.stats.dex - 1) {
+          this.player.animations.playSprites(this.playerBody, 'attack', 500);
+          this.currentFoe.body.anims.play('batDamage', true);
+          const thisFoe = this.currentFoe;
+          setTimeout(() => { thisFoe.body.anims.play('batIdle', true) }, 500);
           this.currentFoe.data.currentHp -= 1;
           this.player.information.situation.moves += 1;
         } else {
-          console.log('Turn End');
+          this.player.animations.playSprites(this.playerBody, 'blink', 500);
         }
+      } else {
+        this.player.animations.playSprites(this.playerBody, 'blink', 500);
       }
     });
     if (this.currentFoe) {
@@ -85,6 +91,7 @@ export default class VillageStage extends Phaser.Scene {
     if (this.overLap != null) {
       this.overLap.destroy();
     }
+
     this.isColliding = false;
     this.currentFoe = null;
     this.player.logic.trackHealth(this.playerBody);

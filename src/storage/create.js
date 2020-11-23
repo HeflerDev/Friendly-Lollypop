@@ -37,6 +37,7 @@ const create = (() => {
 
     const newAnimalData = (key) => ({
         name:key,
+        isAlive: true,
         stats: {
             maxHp: 3,
             for:1,

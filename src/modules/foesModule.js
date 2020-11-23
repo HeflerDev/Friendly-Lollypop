@@ -14,11 +14,23 @@ const foesModule = (() => {
         createSprites() {
           scene.anims.create({
             key: 'batIdle',
-            frames: scene.anims.generateFrameNumbers(id, { start: 0, end: 4 }),
+            frames: scene.anims.generateFrameNumbers(id, { start: 0, end: 3 }),
             framerate: 0.5,
             repeat: -1,
           });
+
+            scene.anims.create({
+              key: 'batDamage',
+                frames: scene.anims.generateFrameNumbers(id, {start: 16, end: 19 }),
+              framerate: 1.0,
+                repeat: -1,
+            });
+
+
         },
+        playSprites() {
+
+        }
       },
 
       body: {
