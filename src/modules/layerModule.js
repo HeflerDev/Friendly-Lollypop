@@ -1,11 +1,14 @@
 const layerModule = (() => {
-    const Layer = {
-      isBlocked(player, layer) {
-        const above = layer.getTileAtWorldXY(player.x, player.y - 16, true).properties.collides;
-        const bellow = layer.getTileAtWorldXY(player.x, player.y + 16, true).properties.collides;
-        const onLeft = layer.getTileAtWorldXY(player.x - 16, player.y, true).properties.collides;
-        const onRight = layer.getTileAtWorldXY(player.x + 16, player.y, true).properties.collides;
+  const Layer = (layer) => {
+    const grid = {
+      isBlocked(item) {
+        const itself = layer.getTileAtWorldXY(item.x, item.y, true).properties.collides;
+        const above = layer.getTileAtWorldXY(item.x, item.y - 16, true).properties.collides;
+        const bellow = layer.getTileAtWorldXY(item.x, item.y + 16, true).properties.collides;
+        const onLeft = layer.getTileAtWorldXY(item.x - 16, item.y, true).properties.collides;
+        const onRight = layer.getTileAtWorldXY(item.x + 16, item.y, true).properties.collides;
         return {
+          itself,
           above,
           bellow,
           onLeft,
@@ -13,14 +16,14 @@ const layerModule = (() => {
         };
       },
 
-      isFatal(player, layer, isAlive) {
+      isFatal(player, isAlive) {
         if (layer.getTileAtWorldXY(player.x, player.y, true).y >= 34 && isAlive) {
           return true;
         }
         return false;
       },
 
-      positioning(player, foe, layer) {
+      positioning(player, foe) {
         const playerX = layer.getTileAtWorldXY(player.x, player.y, true).x;
         const playerY = layer.getTileAtWorldXY(player.x, player.y, true).y;
 
@@ -35,8 +38,36 @@ const layerModule = (() => {
           verifyY,
         };
       },
-    }
-    return { Layer }
+
+      generateRandomFreeBlockPosition() {
+        let loop = true;
+        let randX;
+        let randY;
+        while (loop) {
+          randX = Math.floor(Math.random() * 801);
+          randY = Math.floor(Math.random() * 513);
+
+          if (randX % 16 != 0) {
+            randX += 16 - (randX % 16);
+          }
+
+          if (randY % 16 != 0) {
+            randY += 16 - (randY % 16);
+          }
+
+            console.log(randX, randY);
+
+          if (!layer.getTileAtWorldXY(randX, randY, true).properties.collides) {
+            loop = false;
+          }
+        }
+          return { randX, randY }
+      },
+    };
+    return { grid };
+  };
+
+  return { Layer };
 })();
 
 export default layerModule;

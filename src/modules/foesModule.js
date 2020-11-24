@@ -1,5 +1,6 @@
 import BatSprite from '../assets/characters/bat.png';
 import create from '../storage/create';
+import layerModule from './layerModule';
 
 const foesModule = (() => {
   const Foe = (id, scene) => {
@@ -19,23 +20,30 @@ const foesModule = (() => {
             repeat: -1,
           });
 
-            scene.anims.create({
-              key: 'batDamage',
-                frames: scene.anims.generateFrameNumbers(id, {start: 16, end: 19 }),
-              framerate: 1.0,
-                repeat: -1,
-            });
-
-
+          scene.anims.create({
+            key: 'batDamage',
+            frames: scene.anims.generateFrameNumbers(id, { start: 16, end: 19 }),
+            framerate: 1.0,
+            repeat: -1,
+          });
         },
-        playSprites() {
-
-        }
       },
 
       body: {
-        createBody(x, y) {
-          const body = scene.physics.add.sprite(x, y, id);
+        spawnRandom() {
+          const coord = scene.dinamicLayer.generateRandomFreeBlockPosition();
+          console.log(coord)
+          const body = scene.physics.add.sprite(coord.randX, coord.randY, id);
+          const data = create.newAnimalData(id);
+          const obj = { body, data };
+
+          scene.enemies.push(obj);
+          body.anims.play('batIdle');
+          scene.physics.add.collider(body, scene.playerBody, () => {
+            scene.isColliding = true;
+            scene.currentFoe = obj;
+          });
+
           return {
             body,
             data: create.newAnimalData(id),
@@ -67,14 +75,15 @@ const foesModule = (() => {
             foeBody.x += posX;
             foeBody.y += posY;
           },
-            attack(enemyBody, playerBody) {
-                scene.physics.add.overlap(playerBody, enemyBody, () => {
-                    enemyBody.body.touching.none = false;
-                })
-                if (!enemyBody.body.touching.none) {
-                    scene.player.information.situation.currentHp -= 1;
-                }
+          attack(enemyBody, playerBody) {
+            scene.physics.add.overlap(playerBody, enemyBody, () => {
+              enemyBody.body.touching.none = false;
+            });
+            if (!enemyBody.body.touching.none) {
+              scene.player.animations.playSprites(playerBody, 'takeDamage', 500);
+              scene.player.information.situation.currentHp -= 1;
             }
+          },
         },
       },
     };

@@ -11,11 +11,14 @@ export default class VillageStage extends Phaser.Scene {
   constructor() {
     super('villagestage');
 
+    this.turn = 0;
+
     this.player = playerModule.Player('Johnny', this);
     this.playerBody = null;
     this.stage = stagesModule.Stage(this).village;
 
     this.map = null;
+    this.dinamicLayer = null;
 
     this.bat = foesModule.Foe('bat', this).bat;
     this.enemies = [];
@@ -35,22 +38,14 @@ export default class VillageStage extends Phaser.Scene {
   create() {
     this.hud.elements.create(0, 0);
     this.map = this.stage.build();
+    this.dinamicLayer = layerModule.Layer(this.map.layer).grid
 
     this.playerBody = this.player.body.createPlayer();
     this.player.animations.createSprites();
 
     this.bat.animations.createSprites();
-    this.enemies.push(this.bat.body.createBody(200, 200));
-    this.enemies.push(this.bat.body.createBody(300, 300));
-    this.enemies.push(this.bat.body.createBody(400, 400));
 
-    this.enemies.map((enemy) => {
-      this.bat.animations.animate(enemy.body);
-      this.physics.add.collider(enemy.body, this.playerBody, () => {
-        this.isColliding = true;
-        this.currentFoe = enemy;
-      });
-    });
+
   }
 
 
@@ -60,16 +55,23 @@ export default class VillageStage extends Phaser.Scene {
         this.enemies.forEach((enemy) => {
           while (this.foeTurn(enemy)) {
             if (enemy.body.active) {
-                const positions = layerModule.Layer.positioning(this.playerBody, enemy.body, this.map.layer);
+                const positions = this.dinamicLayer.positioning(this.playerBody, enemy.body);
                 this.bat.behavior.react.move(enemy.body, positions);
                 this.bat.behavior.react.attack(enemy.body, this.playerBody);
             }
           }
         });
+          this.turn += 1;
+          if (this.turn % 2 === 0) {
+            this.bat.body.spawnRandom();
+          }
       }
     }, () => {
       if (this.isColliding) {
         if (this.player.information.situation.moves <= this.player.information.stats.dex - 1) {
+          if (!this.dinamicLayer.isBlocked(this.playerBody).bellow) {
+            this.playerBody.y += 16;
+          };
           this.player.animations.playSprites(this.playerBody, 'attack', 500);
           this.currentFoe.body.anims.play('batDamage', true);
           const thisFoe = this.currentFoe;

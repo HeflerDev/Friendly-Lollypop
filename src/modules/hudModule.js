@@ -10,6 +10,7 @@ const hudModule = (() => {
                 return {
                     'movesLeftText': `Moves Left: ${ 2 - playerInfo.situation.moves }`,
                     'playerHpText': `HP:${playerInfo.situation.currentHp}`,
+                    'movesMadeText': `Moves:${scene.turn}`,
                 }
             },
 
@@ -23,7 +24,7 @@ const hudModule = (() => {
                     .setOrigin(0, 0);
 
                 const hpLeft = scene.make.text({
-                    x: coordX + 400,
+                    x: coordX + 200,
                     y: coordY,
                     text: this.gatherData().playerHpText
                 })

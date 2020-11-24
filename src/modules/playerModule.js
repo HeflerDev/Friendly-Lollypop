@@ -59,6 +59,13 @@ const playerModule = (() => {
           framerate: 0.5,
           repeat: -1,
         });
+
+          scene.anims.create({
+            key: 'takeDamage',
+              frames: scene.anims.generateFrameNumbers(name, { start: 52, end: 53 }),
+              framerate: 0.5,
+              repeat: -1,
+          });
       },
 
         playSprites(body, spriteKey, miliseconds) {
@@ -76,7 +83,7 @@ const playerModule = (() => {
       movePlayer(playerBody, layer, hostileMoves, attackMove) {
         if (information.situation.isAlive) {
           if (Phaser.Input.Keyboard.JustDown(this.addKeys().W)) {
-            if (layerModule.Layer.isBlocked(playerBody, layer).bellow) {
+            if (scene.dinamicLayer.isBlocked(playerBody, layer).bellow) {
               playerBody.y -= 32;
               hostileMoves();
             }
@@ -91,11 +98,11 @@ const playerModule = (() => {
           }
 
           if (Phaser.Input.Keyboard.JustDown(this.addKeys().D)) {
-            if (!layerModule.Layer.isBlocked(playerBody, layer).onRight) {
+            if (!scene.dinamicLayer.isBlocked(playerBody).onRight) {
               playerBody.anims.play('idle').flipX = false;
               playerBody.x += 16;
               hostileMoves();
-              if (!layerModule.Layer.isBlocked(playerBody, layer).bellow) {
+              if (!scene.dinamicLayer.isBlocked(playerBody).bellow) {
                 playerBody.y += 16;
               }
             } else {
@@ -104,11 +111,11 @@ const playerModule = (() => {
               setTimeout(() => { information.situation.isAlive = true; }, 500);
             }
           } else if (Phaser.Input.Keyboard.JustDown(this.addKeys().A)) {
-            if (!layerModule.Layer.isBlocked(playerBody, layer).onLeft) {
+            if (!scene.dinamicLayer.isBlocked(playerBody).onLeft) {
               playerBody.anims.play('idle').flipX = true;
               playerBody.x -= 16;
               hostileMoves();
-              if (!layerModule.Layer.isBlocked(playerBody, layer).bellow) {
+              if (!scene.dinamicLayer.isBlocked(playerBody).bellow) {
                 playerBody.y += 16;
               }
             } else {
@@ -118,7 +125,7 @@ const playerModule = (() => {
             }
           } else if (Phaser.Input.Keyboard.JustDown(this.addKeys().S)) {
             hostileMoves();
-            if (!layerModule.Layer.isBlocked(playerBody, layer).bellow) {
+            if (!scene.dinamicLayer.isBlocked(playerBody).bellow) {
               playerBody.y += 16;
             }
           } else {
@@ -126,7 +133,7 @@ const playerModule = (() => {
               playerBody.anims.play('idle', true);
             }
           }
-          if (layerModule.Layer.isFatal(playerBody, layer, information.situation.isAlive)) {
+          if (scene.dinamicLayer.isFatal(playerBody, information.situation.isAlive)) {
             information.situation.isAlive = false;
             scene.input.keyboard.removeAllKeys(true);
             playerBody.anims.play('die');
