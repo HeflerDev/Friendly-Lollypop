@@ -11,7 +11,7 @@ export default class VillageStage extends Phaser.Scene {
   constructor() {
     super('villagestage');
 
-    this.turn = 0;
+    this.score = 0;
 
     this.player = playerModule.Player('Johnny', this);
     this.playerBody = null;
@@ -61,10 +61,8 @@ export default class VillageStage extends Phaser.Scene {
             }
           }
         });
-          this.turn += 1;
-          if (this.turn % 2 === 0) {
-            this.bat.body.spawnRandom();
-          }
+          this.score += 1;
+          this.bat.body.spawnRandomDependingOnScore();
       }
     }, () => {
       if (this.isColliding) {
@@ -87,6 +85,7 @@ export default class VillageStage extends Phaser.Scene {
     });
     if (this.currentFoe) {
       if (this.currentFoe.data.currentHp <= 0) {
+        this.score += 5;
         this.currentFoe.body.destroy();
       }
     }

@@ -83,14 +83,18 @@ const playerModule = (() => {
       movePlayer(playerBody, layer, hostileMoves, attackMove) {
         if (information.situation.isAlive) {
           if (Phaser.Input.Keyboard.JustDown(this.addKeys().W)) {
-            if (scene.dinamicLayer.isBlocked(playerBody, layer).bellow) {
+            if (scene.dinamicLayer.isBlocked(playerBody).bellow) {
               playerBody.y -= 32;
               hostileMoves();
             }
           }
 
           if (Phaser.Input.Keyboard.JustDown(this.addKeys().SPACE)) {
-            attackMove();
+            if (scene.dinamicLayer.isBlocked(playerBody).bellow) {
+              attackMove();
+            } else {
+              scene.player.animations.playSprites(playerBody, 'blink', 500);
+            }
           }
 
           if (Phaser.Input.Keyboard.JustDown(this.addKeys().ENTER)) {

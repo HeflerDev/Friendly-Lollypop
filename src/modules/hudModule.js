@@ -3,6 +3,7 @@ const hudModule = (() => {
     const Hud = (playerInfo, scene) => {
 
         const elements = {
+            currentMovesMade: null,
             currentMoves: null,
             currentHp: null,
 
@@ -10,7 +11,7 @@ const hudModule = (() => {
                 return {
                     'movesLeftText': `Moves Left: ${ 2 - playerInfo.situation.moves }`,
                     'playerHpText': `HP:${playerInfo.situation.currentHp}`,
-                    'movesMadeText': `Moves:${scene.turn}`,
+                    'movesMadeText': `Score:${scene.score}`,
                 }
             },
 
@@ -31,13 +32,23 @@ const hudModule = (() => {
                     .setDepth(5)
                     .setOrigin(0, 0);
 
+                const movesMade = scene.make.text({
+                    x: coordX + 400,
+                    y: coordY,
+                    text: this.gatherData().movesMadeText
+                })
+                    .setDepth(5)
+                    .setOrigin(0, 0);
+
                 this.currentMoves = movesAvaiable;
                 this.currentHp = hpLeft;
+                this.currentMovesMade = movesMade;
             },
 
             update() {
                 this.currentMoves.text = this.gatherData().movesLeftText;
                 this.currentHp.text = this.gatherData().playerHpText;
+                this.currentMovesMade.text = this.gatherData().movesMadeText;
             },
         }
         return { elements }

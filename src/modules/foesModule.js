@@ -49,6 +49,26 @@ const foesModule = (() => {
             data: create.newAnimalData(id),
           };
         },
+
+        spawnRandomDependingOnScore() {
+          if (scene.score < 30) {
+            if (scene.score % 8 === 0) {
+              this.spawnRandom();
+            }
+          } else if (scene.score < 50) {
+            if (scene.score % 6 === 0) {
+              this.spawnRandom();
+            }
+          } else if (scene.score < 80) {
+            if (scene.score % 4 === 0) {
+                this.spawnRandom();
+            }
+          } else {
+            if (scene.score % 2 === 0) {
+              this.spawnRandom();
+            }
+          }
+        }
       },
 
       behavior: {
