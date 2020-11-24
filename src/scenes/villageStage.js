@@ -6,17 +6,17 @@ import foesModule from '../modules/foesModule';
 import stagesModule from '../modules/stagesModule';
 import layerModule from '../modules/layerModule';
 import hudModule from '../modules/hudModule';
+import coinsModule from '../modules/coinsModule';
 
 export default class VillageStage extends Phaser.Scene {
   constructor() {
     super('villagestage');
-
     this.score = 0;
 
     this.player = playerModule.Player('Johnny', this);
     this.playerBody = null;
-    this.stage = stagesModule.Stage(this).village;
 
+    this.stage = stagesModule.Stage(this).village;
     this.map = null;
     this.dinamicLayer = null;
 
@@ -26,6 +26,8 @@ export default class VillageStage extends Phaser.Scene {
     this.isColliding = false;
     this.currentFoe = null;
 
+    this.coins = coinsModule.Coin(this);
+
     this.hud = hudModule.Hud(this.player.information, this);
   }
 
@@ -33,6 +35,7 @@ export default class VillageStage extends Phaser.Scene {
     this.bat.animations.loadSprites();
     this.player.animations.loadSprites();
     this.stage.load();
+    this.coins.animations.loadSprites();
   }
 
   create() {
@@ -41,8 +44,9 @@ export default class VillageStage extends Phaser.Scene {
     this.dinamicLayer = layerModule.Layer(this.map.layer).grid
 
     this.playerBody = this.player.body.createPlayer();
-    this.player.animations.createSprites();
 
+    this.player.animations.createSprites();
+    this.coins.animations.createSprites();
     this.bat.animations.createSprites();
 
 
@@ -61,15 +65,13 @@ export default class VillageStage extends Phaser.Scene {
             }
           }
         });
+          this.coins.body.spawnCoin();
           this.score += 1;
           this.bat.body.spawnRandomDependingOnScore();
       }
     }, () => {
       if (this.isColliding) {
         if (this.player.information.situation.moves <= this.player.information.stats.dex - 1) {
-          if (!this.dinamicLayer.isBlocked(this.playerBody).bellow) {
-            this.playerBody.y += 16;
-          };
           this.player.animations.playSprites(this.playerBody, 'attack', 500);
           this.currentFoe.body.anims.play('batDamage', true);
           const thisFoe = this.currentFoe;

@@ -55,13 +55,27 @@ const layerModule = (() => {
             randY += 16 - (randY % 16);
           }
 
-            console.log(randX, randY);
-
           if (!layer.getTileAtWorldXY(randX, randY, true).properties.collides) {
             loop = false;
           }
         }
           return { randX, randY }
+      },
+
+      generateRandomGroundBlockPosition() {
+        const selectedTiles = [];
+        layer.forEachTile((tile) => {
+          if (tile.properties.collides) {
+            const obj = { 'x': tile.pixelX, 'y': tile.pixelY }
+            if (this.isBlocked(obj).above != null) {
+              console.log(this.isBlocked(obj).above);
+            }
+
+              // selectedTiles.push({'tileX': tile.x, 'tileY': tile.y});
+
+          }
+        });
+        return selectedTiles;
       },
     };
     return { grid };
