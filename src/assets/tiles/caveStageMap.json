@@ -1,4 +1,11 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "target":"."
+        }
+    },
  "height":32,
  "infinite":false,
  "layers":[
@@ -60,7 +67,7 @@
         {
          "columns":17,
          "firstgid":1,
-         "image":"sheet.png",
+         "image":"caves.png",
          "imageheight":128,
          "imagewidth":272,
          "margin":0,

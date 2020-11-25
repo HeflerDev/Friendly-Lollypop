@@ -16,8 +16,8 @@ const layerModule = (() => {
         };
       },
 
-      isFatal(player, isAlive) {
-        if (layer.getTileAtWorldXY(player.x, player.y, true).y >= 34 && isAlive) {
+      tileIsDeadly(playerBody, isAlive) {
+        if (layer.getTileAtWorldXY(playerBody.x, playerBody.y, true).properties.deadly && isAlive) {
           return true;
         }
         return false;

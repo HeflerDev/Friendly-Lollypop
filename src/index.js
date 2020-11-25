@@ -10,6 +10,7 @@ const config = {
   width: 800,
   height: 512,
   parent: 'phaser-container',
+  backgroundColor: 'rgb(80,20,50)',
   dom: {
     createContainer: true,
   },
@@ -20,7 +21,7 @@ const config = {
       debug: false,
     },
   },
-  scene: [CaveStage, VillageStage, Village, Menu],
+  scene: [CaveStage],
 };
 
 export default new Phaser.Game(config);

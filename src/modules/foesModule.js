@@ -39,7 +39,7 @@ const foesModule = (() => {
 
           scene.enemies.push(obj);
           body.anims.play('batIdle');
-          scene.physics.add.collider(body, scene.playerBody, () => {
+          scene.physics.add.collider(body, scene.player.character.body, () => {
             scene.isColliding = true;
             scene.currentFoe = obj;
           });
