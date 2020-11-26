@@ -32,7 +32,7 @@ const foesModule = (() => {
       body: {
         spawnRandom() {
           const coord = scene.dinamicLayer.generateRandomFreeBlockPosition();
-          console.log(coord)
+          console.log(coord);
           const body = scene.physics.add.sprite(coord.randX, coord.randY, id);
           const data = create.newAnimalData(id);
           const obj = { body, data };
@@ -61,14 +61,12 @@ const foesModule = (() => {
             }
           } else if (scene.score < 80) {
             if (scene.score % 4 === 0) {
-                this.spawnRandom();
-            }
-          } else {
-            if (scene.score % 2 === 0) {
               this.spawnRandom();
             }
+          } else if (scene.score % 2 === 0) {
+            this.spawnRandom();
           }
-        }
+        },
       },
 
       behavior: {

@@ -32,11 +32,11 @@ const stagesModule = (() => {
           stageTileMap.createStaticLayer(i, 'city_tiles', -8, -50);
           layer.setDepth(i);
         }
-          return {
-              stageTileMap,
-              tileset,
-              layer
-          }
+        return {
+          stageTileMap,
+          tileset,
+          layer,
+        };
       },
     };
 
@@ -57,14 +57,13 @@ const stagesModule = (() => {
           stageTileMap.createStaticLayer(i, 'sheet', 0, 0);
           layer.setDepth(i);
         }
-          return {
-              stageTileMap,
-              tileset,
-              layer
-          }
-
+        return {
+          stageTileMap,
+          tileset,
+          layer,
+        };
       },
-    }
+    };
     return { village, cave };
   };
   return { Stage };

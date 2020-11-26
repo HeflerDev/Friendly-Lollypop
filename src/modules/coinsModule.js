@@ -1,16 +1,15 @@
 import CoinSprites from '../assets/items/sCoins.png';
 
 const coinsModule = (() => {
-
   const Coin = (scene, name = 'coin') => {
     const body = {
       spawnCoin() {
         const prob = scene.dinamicLayer.generateRandomGroundBlockPosition();
-        console.log(prob)
+        console.log(prob);
 
         // const cBody = scene.physics.add.sprite(x, y, name);
-      }
-    }
+      },
+    };
 
     const animations = {
       loadSprites() {
@@ -27,10 +26,10 @@ const coinsModule = (() => {
       playSprites(body, sprite, miliseconds) {
         body.anims.play(spriteKey);
       },
-    }
-    return {body, animations }
-  }
-  return { Coin }
+    };
+    return { body, animations };
+  };
+  return { Coin };
 })();
 
 export default coinsModule;

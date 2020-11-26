@@ -21,7 +21,6 @@ export default class CaveStage extends Phaser.Scene {
     this.currentFo = null;
     this.coins = coinsModule.Coin(this);
     this.hud = hudModule.Hud(this.player.information, this);
-
   }
 
   preload() {
@@ -34,8 +33,7 @@ export default class CaveStage extends Phaser.Scene {
     this.coins.animations.loadSprites();
   }
 
-  create () {
-
+  create() {
     this.hud.elements.create(0, 0);
     this.level = this.stage.build();
     this.dinamicLayer = layerModule.Layer(this.level.layer).grid;
@@ -52,13 +50,13 @@ export default class CaveStage extends Phaser.Scene {
     this.player.controls.movePlayer(this.player.character.body, this.level.layer, () => {
       this.player.information.situation.moves += 1;
 
-      if(this.dinamicLayer.tileIsDeadly(this.player.character.body, this.player.information.situation.isAlive)) {
+      if (this.dinamicLayer.tileIsDeadly(this.player.character.body, this.player.information.situation.isAlive)) {
         this.player.information.situation.currentHp -= 4;
       }
     }, () => {
       if (this.isColliding) {
-        if (this.player.information.situation.moves <= this.player.information.stats.dex -1) {
-         this.player.animations.playSprites(this.player.character.body, 'attack', 500);
+        if (this.player.information.situation.moves <= this.player.information.stats.dex - 1) {
+          this.player.animations.playSprites(this.player.character.body, 'attack', 500);
           this.currentFoe.body.anims.play('batDamage', true);
           const thisFoe = this.currentFoe;
           setTimeout(() => { thisFoe.body.anims.play('batIdle', true); }, 500);
@@ -68,14 +66,14 @@ export default class CaveStage extends Phaser.Scene {
           this.player.animations.playSprites(this.player.character.body, 'blink', 500);
         }
       } else {
-          this.player.animations.playSprites(this.player.character.body, 'blink', 500);
+        this.player.animations.playSprites(this.player.character.body, 'blink', 500);
       }
-      }, () => {
+    }, () => {
       this.enemies.forEach((enemy) => {
         console.log(enemy);
         if (enemy.body.active) {
           console.log('here');
-          while(enemy.data.moves < enemy.data.stats.dex) {
+          while (enemy.data.moves < enemy.data.stats.dex) {
             console.log('isHere?');
             const positions = this.dinamicLayer.positioning(this.player.character.body, enemy.body);
             this.bat.behavior.react.move(enemy.body, positions);
@@ -89,12 +87,12 @@ export default class CaveStage extends Phaser.Scene {
       this.bat.body.spawnRandomDependingOnScore();
       this.player.information.situation.moves = 0;
     });
-      if (this.currentFoe) {
-        if (this.currentFoe.data.currentHp <= 0) {
-          this.score += 5;
-          this.currentFoe.body.destroy();
-        }
+    if (this.currentFoe) {
+      if (this.currentFoe.data.currentHp <= 0) {
+        this.score += 5;
+        this.currentFoe.body.destroy();
       }
+    }
     this.hud.elements.update();
     this.isColliding = false;
     this.currentFoe = null;

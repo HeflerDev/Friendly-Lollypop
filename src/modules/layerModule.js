@@ -59,20 +59,19 @@ const layerModule = (() => {
             loop = false;
           }
         }
-          return { randX, randY }
+        return { randX, randY };
       },
 
       generateRandomGroundBlockPosition() {
         const selectedTiles = [];
         layer.forEachTile((tile) => {
           if (tile.properties.collides) {
-            const obj = { 'x': tile.pixelX, 'y': tile.pixelY }
+            const obj = { x: tile.pixelX, y: tile.pixelY };
             if (this.isBlocked(obj).above != null) {
               console.log(this.isBlocked(obj).above);
             }
 
-              // selectedTiles.push({'tileX': tile.x, 'tileY': tile.y});
-
+            // selectedTiles.push({'tileX': tile.x, 'tileY': tile.y});
           }
         });
         return selectedTiles;

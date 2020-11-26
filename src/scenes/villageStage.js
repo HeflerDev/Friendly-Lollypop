@@ -41,15 +41,13 @@ export default class VillageStage extends Phaser.Scene {
   create() {
     this.hud.elements.create(0, 0);
     this.map = this.stage.build();
-    this.dinamicLayer = layerModule.Layer(this.map.layer).grid
+    this.dinamicLayer = layerModule.Layer(this.map.layer).grid;
 
     this.playerBody = this.player.body.createPlayer();
 
     this.player.animations.createSprites();
     this.coins.animations.createSprites();
     this.bat.animations.createSprites();
-
-
   }
 
 
@@ -59,15 +57,15 @@ export default class VillageStage extends Phaser.Scene {
         this.enemies.forEach((enemy) => {
           while (this.foeTurn(enemy)) {
             if (enemy.body.active) {
-                const positions = this.dinamicLayer.positioning(this.playerBody, enemy.body);
-                this.bat.behavior.react.move(enemy.body, positions);
-                this.bat.behavior.react.attack(enemy.body, this.playerBody);
+              const positions = this.dinamicLayer.positioning(this.playerBody, enemy.body);
+              this.bat.behavior.react.move(enemy.body, positions);
+              this.bat.behavior.react.attack(enemy.body, this.playerBody);
             }
           }
         });
-          this.coins.body.spawnCoin();
-          this.score += 1;
-          this.bat.body.spawnRandomDependingOnScore();
+        this.coins.body.spawnCoin();
+        this.score += 1;
+        this.bat.body.spawnRandomDependingOnScore();
       }
     }, () => {
       if (this.isColliding) {
@@ -75,7 +73,7 @@ export default class VillageStage extends Phaser.Scene {
           this.player.animations.playSprites(this.playerBody, 'attack', 500);
           this.currentFoe.body.anims.play('batDamage', true);
           const thisFoe = this.currentFoe;
-          setTimeout(() => { thisFoe.body.anims.play('batIdle', true) }, 500);
+          setTimeout(() => { thisFoe.body.anims.play('batIdle', true); }, 500);
           this.currentFoe.data.currentHp -= 1;
           this.player.information.situation.moves += 1;
         } else {
@@ -99,7 +97,7 @@ export default class VillageStage extends Phaser.Scene {
     this.currentFoe = null;
     this.player.logic.trackHealth(this.playerBody);
     this.hud.elements.update();
-            // console.log(this.enemies);
+    // console.log(this.enemies);
   }
 
   swapTurns() {
@@ -120,5 +118,4 @@ export default class VillageStage extends Phaser.Scene {
     foe.data.moves = 0;
     return false;
   }
-
 }

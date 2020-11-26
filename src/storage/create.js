@@ -17,7 +17,7 @@ const create = (() => {
       currentHp: 10,
       currentMp: 10,
       currentEnergy: 100,
-        moves: 0,
+      moves: 0,
       effects: [],
       isAlive: true,
     },
@@ -35,18 +35,18 @@ const create = (() => {
     },
   });
 
-    const newAnimalData = (key) => ({
-        name:key,
-        isAlive: true,
-        stats: {
-            maxHp: 3,
-            for:1,
-            int:0,
-            dex:3,
-        },
-        currentHp:3,
-        moves:0
-    });
+  const newAnimalData = (key) => ({
+    name: key,
+    isAlive: true,
+    stats: {
+      maxHp: 3,
+      for: 1,
+      int: 0,
+      dex: 3,
+    },
+    currentHp: 3,
+    moves: 0,
+  });
 
   const newItem = (name, description = '', type, effects, weight) => {
     if (
@@ -67,9 +67,9 @@ const create = (() => {
   };
 
   return {
-      newPlayerData,
-      newAnimalData,
-      newItem
+    newPlayerData,
+    newAnimalData,
+    newItem,
   };
 })();
 
