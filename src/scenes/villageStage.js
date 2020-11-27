@@ -6,7 +6,6 @@ import foesModule from '../modules/foesModule';
 import stagesModule from '../modules/stagesModule';
 import layerModule from '../modules/layerModule';
 import hudModule from '../modules/hudModule';
-import coinsModule from '../modules/coinsModule';
 
 export default class VillageStage extends Phaser.Scene {
   constructor() {
@@ -25,8 +24,6 @@ export default class VillageStage extends Phaser.Scene {
 
     this.isColliding = false;
     this.currentFoe = null;
-
-    this.coins = coinsModule.Coin(this);
 
     this.hud = hudModule.Hud(this.player.information, this);
   }
@@ -49,7 +46,6 @@ export default class VillageStage extends Phaser.Scene {
     this.coins.animations.createSprites();
     this.bat.animations.createSprites();
   }
-
 
   update() {
     this.player.controls.movePlayer(this.playerBody, this.map.layer, () => {
@@ -108,14 +104,5 @@ export default class VillageStage extends Phaser.Scene {
     }
     this.player.information.situation.moves = 0;
     return true;
-  }
-
-  foeTurn(foe) {
-    if (foe.data.moves < foe.data.stats.dex) {
-      foe.data.moves += 1;
-      return true;
-    }
-    foe.data.moves = 0;
-    return false;
   }
 }

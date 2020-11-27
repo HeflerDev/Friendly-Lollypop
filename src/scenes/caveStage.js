@@ -5,7 +5,6 @@ import foesModule from '../modules/foesModule';
 import stagesModule from '../modules/stagesModule';
 import layerModule from '../modules/layerModule';
 import hudModule from '../modules/hudModule';
-import coinsModule from '../modules/coinsModule';
 
 export default class CaveStage extends Phaser.Scene {
   constructor() {
@@ -21,7 +20,6 @@ export default class CaveStage extends Phaser.Scene {
     this.enemies = [];
     this.isColliding = false;
     this.currentFo = null;
-    this.coins = coinsModule.Coin(this);
     this.hud = hudModule.Hud(this.player.information, this);
   }
 
@@ -52,7 +50,9 @@ export default class CaveStage extends Phaser.Scene {
     this.player.controls.movePlayer(this.player.character.body, this.level.layer, () => {
       this.player.information.situation.moves += 1;
 
-      if (this.dinamicLayer.tileIsDeadly(this.player.character.body, this.player.information.situation.isAlive)) {
+      if (
+        this.dinamicLayer
+          .tileIsDeadly(this.player.character.body, this.player.information.situation.isAlive)) {
         this.player.information.situation.currentHp -= 4;
       }
     }, () => {
@@ -72,11 +72,8 @@ export default class CaveStage extends Phaser.Scene {
       }
     }, () => {
       this.enemies.forEach((enemy) => {
-        console.log(enemy);
         if (enemy.body.active) {
-          console.log('here');
           while (enemy.data.moves < enemy.data.stats.dex) {
-            console.log('isHere?');
             const positions = this.dinamicLayer.positioning(this.player.character.body, enemy.body);
             this.bat.behavior.react.move(enemy.body, positions);
             this.bat.behavior.react.attack(enemy.body, this.player.character.body);

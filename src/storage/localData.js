@@ -2,7 +2,7 @@ import create from './create';
 
 const localData = (() => {
   const createNewPlayerData = (key) => {
-    playerData = create.newPlayer(key);
+    const playerData = create.newPlayer(key);
     localStorage.setItem(key, JSON.stringify(playerData));
     return ({ key: playerData });
   };
@@ -12,13 +12,13 @@ const localData = (() => {
       if (localStorage.getItem(key)) {
         resolve(key, value);
       } else {
-        reject('No value match input on localStorage');
+        reject(new Error('Wrong Player Name'));
       }
     }).then((key, value) => {
       localStorage.removeItem(key).setItem(key, JSON.stringify(value));
       return ({ key: value });
     }).catch((err) => {
-      throw new Error(err);
+      throw err;
     });
   };
 

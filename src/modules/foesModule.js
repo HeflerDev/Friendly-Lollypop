@@ -1,6 +1,5 @@
 import BatSprite from '../assets/characters/bat.png';
 import create from '../storage/create';
-import layerModule from './layerModule';
 
 const foesModule = (() => {
   const Foe = (id, scene) => {
@@ -32,7 +31,6 @@ const foesModule = (() => {
       body: {
         spawnRandom() {
           const coord = scene.dinamicLayer.generateRandomFreeBlockPosition();
-          console.log(coord);
           const body = scene.physics.add.sprite(coord.randX, coord.randY, id);
           const data = create.newAnimalData(id);
           const obj = { body, data };

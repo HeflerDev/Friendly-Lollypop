@@ -47,11 +47,11 @@ const layerModule = (() => {
           randX = Math.floor(Math.random() * 801);
           randY = Math.floor(Math.random() * 513);
 
-          if (randX % 16 != 0) {
+          if (randX % 16 !== 0) {
             randX += 16 - (randX % 16);
           }
 
-          if (randY % 16 != 0) {
+          if (randY % 16 !== 0) {
             randY += 16 - (randY % 16);
           }
 
@@ -60,21 +60,6 @@ const layerModule = (() => {
           }
         }
         return { randX, randY };
-      },
-
-      generateRandomGroundBlockPosition() {
-        const selectedTiles = [];
-        layer.forEachTile((tile) => {
-          if (tile.properties.collides) {
-            const obj = { x: tile.pixelX, y: tile.pixelY };
-            if (this.isBlocked(obj).above != null) {
-              console.log(this.isBlocked(obj).above);
-            }
-
-            // selectedTiles.push({'tileX': tile.x, 'tileY': tile.y});
-          }
-        });
-        return selectedTiles;
       },
     };
     return { grid };

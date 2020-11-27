@@ -28,7 +28,7 @@ const stagesModule = (() => {
         const layer = stageTileMap.createDynamicLayer(2, tileset, -8, -50);
         layer.setCollisionByProperty({ collides: true });
 
-        for (let i = 0; i < stageTileMap.layers.length - 1; i++) {
+        for (let i = 0; i < stageTileMap.layers.length - 1; i += 1) {
           stageTileMap.createStaticLayer(i, 'city_tiles', -8, -50);
           layer.setDepth(i);
         }
@@ -46,14 +46,12 @@ const stagesModule = (() => {
         scene.load.tilemapTiledJSON('caveTiles', CaveStageTileMap);
       },
       build() {
-        const coord = sceneHelpers.getMeasures(scene);
-
         const stageTileMap = scene.make.tilemap({ key: 'caveTiles' });
         const tileset = stageTileMap.addTilesetImage('sheet', 'tiles');
         const layer = stageTileMap.createDynamicLayer(3, tileset, 0, 0);
         layer.setCollisionByProperty({ collides: true });
 
-        for (let i = 0; i < stageTileMap.layers.length - 1; i++) {
+        for (let i = 0; i < stageTileMap.layers.length - 1; i += 1) {
           stageTileMap.createStaticLayer(i, 'sheet', 0, 0);
           layer.setDepth(i);
         }

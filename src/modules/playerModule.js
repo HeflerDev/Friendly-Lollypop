@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import RogueSprite from '../assets/characters/rogue.png';
-import layerModule from './layerModule';
 import create from '../storage/create';
 
 const playerModule = (() => {
@@ -12,7 +11,13 @@ const playerModule = (() => {
         if (information.situation.currentHp <= 0) {
           if (information.situation.isAlive) { playerBody.anims.play('die', true); }
           information.situation.isAlive = false;
-          setTimeout(() => { scene.endGame = true }, 3000);
+          setTimeout(() => {
+            scene.scene.restart();
+            scene.player.information.situation.isAlive = true;
+            scene.player.information.situation.moves = 2;
+            scene.player.information.situation.currentHp = scene.player.information.stats.maxHp;
+            scene.score = 0;
+          }, 3000);
         }
       },
     };
@@ -67,7 +72,7 @@ const playerModule = (() => {
           key: 'white',
           frames: scene.anims.generateFrameNumbers(name, { start: 51, end: 51 }),
           framerate: 10,
-          repeat: -1
+          repeat: -1,
         });
 
         scene.anims.create({
@@ -111,7 +116,6 @@ const playerModule = (() => {
               }
             }
 
-
             if (Phaser.Input.Keyboard.JustDown(this.addKeys().D)) {
               if (!scene.dinamicLayer.isBlocked(playerBody).onRight) {
                 playerBody.anims.play('idle').flipX = false;
@@ -146,8 +150,6 @@ const playerModule = (() => {
             } else if (information.situation.isAlive) {
               playerBody.anims.play('idle', true);
             }
-          } else {
-            scene.player.animations.playSprites(playerBody, 'white', 500);
           }
         }
       },

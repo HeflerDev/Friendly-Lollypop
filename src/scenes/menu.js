@@ -10,14 +10,13 @@ export default class Menu extends Phaser.Scene {
     this.load.html('menu-form');
   }
 
-  create(){
-    const width = this.scale.width;
-    const height = this.scale.height;
+  create() {
+    const { width } = this.scale;
+    const { height } = this.scale;
 
     this.dom = domModule.CreateDOM(this);
 
-
-    this.dom.render.container(width/2, height/2, 'menu-form');
+    this.dom.render.container(width / 2, height / 2, 'menu-form');
     const btns = this.dom.render.menu('menu-form');
     btns.newGame.addEventListener('click', () => {
       this.scene.start('cave-stage');
