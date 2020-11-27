@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack",
-    "start": "npm run build && webpack-dev-server --host=0.0.0.0 --port=$PORT --disable-host-checkt"
+    "start": "npm run build && webpack serve --host=0.0.0.0 --port=$PORT --disable-host-check"
   },
   "author": "",
   "license": "ISC",
@@ -24,7 +24,7 @@
     "sass-loader": "^10.1.0",
     "scss-loader": "0.0.1",
     "style-loader": "^2.0.0",
-    "webpack": "^5.6.0",
+    "webpack": "^5.8.0",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0"
   },
