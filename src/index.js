@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import './style/master.scss';
 
 import Menu from './scenes/menu';
 import Instructions from './scenes/instructions';
