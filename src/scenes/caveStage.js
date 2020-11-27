@@ -29,8 +29,6 @@ export default class CaveStage extends Phaser.Scene {
     this.bat.animations.loadSprites();
     // Stage
     this.stage.load();
-    // Items
-    this.coins.animations.loadSprites();
   }
 
   create() {
