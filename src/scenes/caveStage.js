@@ -9,9 +9,11 @@ import coinsModule from '../modules/coinsModule';
 
 export default class CaveStage extends Phaser.Scene {
   constructor() {
-    super('caveStage');
+    super('cave-stage');
 
     this.score = 0;
+
+    this.endGame = false;
 
     this.player = playerModule.Player('Johnny', this);
     this.stage = stagesModule.Stage(this).cave;
@@ -92,6 +94,9 @@ export default class CaveStage extends Phaser.Scene {
         this.score += 5;
         this.currentFoe.body.destroy();
       }
+    }
+    if (this.endGame) {
+      this.scene.start('menu');
     }
     this.hud.elements.update();
     this.isColliding = false;

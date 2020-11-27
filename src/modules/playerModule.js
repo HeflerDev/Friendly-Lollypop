@@ -12,6 +12,7 @@ const playerModule = (() => {
         if (information.situation.currentHp <= 0) {
           if (information.situation.isAlive) { playerBody.anims.play('die', true); }
           information.situation.isAlive = false;
+          setTimeout(() => { scene.endGame = true }, 3000);
         }
       },
     };
@@ -60,6 +61,13 @@ const playerModule = (() => {
           frames: scene.anims.generateFrameNumbers(name, { start: 50, end: 51 }),
           framerate: 0.5,
           repeat: -1,
+        });
+
+        scene.anims.create({
+          key: 'white',
+          frames: scene.anims.generateFrameNumbers(name, { start: 51, end: 51 }),
+          framerate: 10,
+          repeat: -1
         });
 
         scene.anims.create({
@@ -138,6 +146,8 @@ const playerModule = (() => {
             } else if (information.situation.isAlive) {
               playerBody.anims.play('idle', true);
             }
+          } else {
+            scene.player.animations.playSprites(playerBody, 'white', 500);
           }
         }
       },

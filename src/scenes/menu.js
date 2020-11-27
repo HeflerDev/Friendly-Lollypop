@@ -1,15 +1,9 @@
 import Phaser from 'phaser';
-import domModule from './domModule';
+import domModule from '../modules/domModule';
 
 export default class Menu extends Phaser.Scene {
   constructor() {
     super('menu');
-    this.sizing = {
-      'width': this.scale.width,
-      'height': this.scale.height,
-      'centerX': this.scale.width/2,
-      'centerY':this.scale.height/2
-    };
   }
 
   preload() {
@@ -17,14 +11,19 @@ export default class Menu extends Phaser.Scene {
   }
 
   create(){
-    this.dom = domModule.createDOM(this);
+    const width = this.scale.width;
+    const height = this.scale.height;
 
-    const btns = this.dom.render.container(this.sizing.centerX, this.sizing.centerY, 'menu-form');
+    this.dom = domModule.CreateDOM(this);
+
+
+    this.dom.render.container(width/2, height/2, 'menu-form');
+    const btns = this.dom.render.menu('menu-form');
     btns.newGame.addEventListener('click', () => {
-
+      this.scene.start('cave-stage');
     });
     btns.instructions.addEventListener('click', () => {
-
+      this.scene.start('instructions');
     });
   }
 }
