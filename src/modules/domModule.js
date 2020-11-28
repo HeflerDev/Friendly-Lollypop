@@ -16,10 +16,17 @@ const domModule = (() => {
         },
       },
 
-      element(elementId, parent = null, type = 'div') {
+      element(elementId, parent = null, type = 'div', elementClass) {
         const div = document.createElement(type);
         if (elementId) {
           div.id = elementId;
+        }
+        if (Array.isArray(elementClass)) {
+          elementClass.forEach((item) => {
+            div.classList.add(item);
+          });
+        } else {
+          div.classList.add(elementClass);
         }
         if (parent) {
           document.getElementById(parent).appendChild(div);
@@ -29,28 +36,28 @@ const domModule = (() => {
 
       container(x, y, name) {
         const el = document.createElement('div');
+        el.classList.add('flex-grid');
         el.id = name;
         scene.add.dom(x, y, el, this.style.background);
       },
 
       menu() {
-        const form = this.element('form', 'menu-form');
-        form.style.display = 'flex';
-        form.style.flexDirection = 'column';
-        document.getElementById('menu-form').appendChild(form);
-        const newGame = this.element('new-game-button', 'form', 'button');
-        newGame.textContent = 'New Game';
-        newGame.style.backgroundColor = 'rgb(120, 0, 120)';
-        newGame.style.color = 'whitesmoke';
-        newGame.style.border = 'solid pink 2px';
-        const instructions = this.element('instructions-button', 'form', 'button');
-        instructions.textContent = 'Instructions';
-        instructions.style.backgroundColor = 'rgb(120, 0, 120)';
-        instructions.style.color = 'whitesmoke';
-        instructions.style.border = 'solid pink 2px';
+        this.element('menu-container', 'game-menu', 'div', ['col-12', 'box']);
+        this.element('row-one', 'menu-container', 'div', ['col-12', 'minibox', 'between']);
+          const newGameBtn = this.element('new-game-button', 'row-one', 'button', 'col-5');
+          newGameBtn.textContent = 'New Game';
+          const loadGameBtn = this.element('load-game-button', 'row-one', 'button', 'col-5');
+          loadGameBtn.textContent = 'Load Game';
+        this.element('row-two', 'menu-container', 'div', ['col-12', 'minibox']);
+          const instructionsBtn = this.element('instructions-button', 'row-two', 'button', 'col-6');
+          instructionsBtn.textContent = 'Instructions';
+          const creditsBtn = this.element('instructions-button', 'row-two', 'button', 'col-6');
+          creditsBtn.textContent = 'Credits';
         return {
-          newGame,
-          instructions,
+          newGameBtn,
+          loadGameBtn,
+          instructionsBtn,
+          creditsBtn,
         };
       },
 

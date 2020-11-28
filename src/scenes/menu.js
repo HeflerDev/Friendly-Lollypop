@@ -16,13 +16,19 @@ export default class Menu extends Phaser.Scene {
 
     this.dom = domModule.CreateDOM(this);
 
-    this.dom.render.container(width / 2, height / 2, 'menu-form');
+    this.dom.render.container(width / 2, height / 2, 'game-menu');
     const btns = this.dom.render.menu('menu-form');
-    btns.newGame.addEventListener('click', () => {
-      this.scene.start('cave-stage');
+    btns.newGameBtn.addEventListener('click', () => {
+      // When game starts
     });
-    btns.instructions.addEventListener('click', () => {
+    btns.loadGameBtn.addEventListener('click', () => {
+      // When game is loaded
+    });
+    btns.instructionsBtn.addEventListener('click', () => {
       this.scene.start('instructions');
+    });
+    btns.creditsBtn.addEventListener('click', ()=> {
+      // When Credits are accessed
     });
   }
 }

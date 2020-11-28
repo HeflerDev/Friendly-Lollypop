@@ -25,7 +25,7 @@ export default class Instructions extends Phaser.Scene {
     const { height } = this.scale;
 
     this.dom = domModule.CreateDOM(this);
-    this.dom.render.container(width / 2, height / 3, 'instructions');
+    this.dom.render.container(width / 2, 0, 'instructions');
     this.dom.render.instructionsText(this.explanation).addEventListener('click', () => {
       this.scene.start('menu');
     });
