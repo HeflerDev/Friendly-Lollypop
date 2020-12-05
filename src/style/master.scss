@@ -5,6 +5,21 @@
 
 $font-main: 'Press Start 2P', cursive;
 
+$color-primary: rgb(190, 16, 150);
+$color-primary-dark: rgb(220, 150, 200);
+
+$border-primary: solid $color-primary 0.5rem;
+
 body {
   font-family: $font-main;
+}
+
+button {
+  border: $border-primary;
+  background-color: $color-primary-dark;
+  &:hover {
+    color: white;
+    cursor: default;
+    transform: scale(1.1);
+  }
 }

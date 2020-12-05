@@ -1,8 +1,8 @@
-import create from './create';
+import createNew from './createNew';
 
 const localData = (() => {
   const createNewPlayerData = (key) => {
-    const playerData = create.newPlayer(key);
+    const playerData = createNew.Player(key);
     localStorage.setItem(key, JSON.stringify(playerData));
     return ({ key: playerData });
   };

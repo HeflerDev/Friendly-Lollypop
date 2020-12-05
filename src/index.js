@@ -2,8 +2,8 @@ import Phaser from 'phaser';
 import './style/master.scss';
 
 import Menu from './scenes/menu';
-import Instructions from './scenes/instructions';
 import CaveStage from './scenes/caveStage';
+import CreateCharacterMenu from './scenes/createCharacterMenu';
 
 const config = {
   type: Phaser.AUTO,
@@ -21,7 +21,7 @@ const config = {
       debug: false,
     },
   },
-  scene: [Menu, Instructions, CaveStage],
+  scene: [CreateCharacterMenu,Menu, CaveStage],
 };
 
 export default new Phaser.Game(config);

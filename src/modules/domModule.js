@@ -15,7 +15,7 @@ const domModule = (() => {
           border: 'solid pink 2px',
         },
       },
-
+      // Helper to render an HTML element
       element(elementId, parent = null, type = 'div', elementClass) {
         const div = document.createElement(type);
         if (elementId) {
@@ -33,7 +33,7 @@ const domModule = (() => {
         }
         return div;
       },
-
+      // Render the first element of the page, on the top of the phaser
       container(x, y, name) {
         const el = document.createElement('div');
         el.classList.add('flex-grid');
@@ -61,20 +61,116 @@ const domModule = (() => {
         };
       },
 
-      instructionsText(txt) {
-        this.element('instructions-container', 'instructions');
+      menuText(txt, returnBtn) {
+        this.element('instructions-container', 'game-menu');
         this.element('txt', 'instructions-container', 'p').innerHTML = txt;
         const btn = this.element('return-btn', 'instructions-container', 'button');
         btn.textContent = 'Return';
         btn.style.backgroundColor = 'rgb(120, 0, 120)';
         btn.style.color = 'whitesmoke';
         btn.style.border = 'solid pink 2px';
-
-        return btn;
+        returnBtn(btn);
       },
 
+      createCharacterTab() {
+        const createStatsContainer = (label) => {
+        this.element(`${label}-container`, 'stats-container', 'div', ['minibox', 'col-12', 'between']);
+          this.element(`${label}-label`, `${label}-container`, 'div', 'noClass')
+            .textContent = label;
+          const counterNumber = this.element(`${label}-counter`, `${label}-container`, 'div', 'noClass');
+          counterNumber.textContent = '0';
+          this.element(`${label}-btns-container`, `${label}-container`, 'div', 'noClass');
+            const minusBtn = this.element(`${label}--`, `${label}-btns-container`, 'button', 'noClass');
+            minusBtn.textContent = '-';
+            const plusBtn = this.element(`${label}++`, `${label}-btns-container`, 'button', 'noClass');
+            plusBtn.textContent = '+';
+
+          return {
+            counterNumber,
+            minusBtn,
+            plusBtn
+          }
+        }
+
+        this.element('create-tab', 'game-menu', 'div', ['col-12']);
+        this.element('name-container', 'create-tab', 'div', ['minibox', 'col-12']);
+        const label = this.element('name-label', 'name-container', 'label', 'noClass');
+        label.textContent = 'Character Name: ';
+        const nameInput = this.element('name-input', 'name-container', 'input', 'noClass');
+        nameInput.placeholder = 'Somethin Here';
+
+        this.element('stats-container', 'create-tab', 'div', ['box', 'col-12']);
+        const force = createStatsContainer('Force');
+        const inteligence = createStatsContainer('Inteligence');
+        const dex = createStatsContainer('Dex');
+
+        return {
+          nameInput,
+          force,
+          inteligence,
+          dex
+        }
+
+      },
     };
-    return { render };
+
+    const addControllerOn = {
+
+      menu(btns) {
+        const updateMenu = () => {
+          scene.sound.play('select');
+          document.getElementById('game-menu').firstChild.remove();
+        }
+
+        for (const [key, value] of Object.entries(btns)) {
+          value.onmouseover = () => { scene.sound.play('buzz')};
+        }
+
+        btns.newGameBtn.addEventListener('click', () => {
+          updateMenu();
+          scene.scene.start('create-character');
+        });
+
+        btns.loadGameBtn.addEventListener('click', () => {
+          updateMenu();
+          scene.dom.render.menuText('not avaiable', (btn) => {
+            btn.addEventListener('click', () => {
+              updateMenu();
+              const newbtns = scene.dom.render.menu();
+              this.menu(newbtns)
+            });
+          });
+        });
+
+        btns.instructionsBtn.addEventListener('click', () => {
+          updateMenu();
+          scene.dom.render.menuText('Instructions Goes here', (btn) => {
+            btn.addEventListener('click', () => {
+              updateMenu();
+              const newbtns = scene.dom.render.menu();
+              this.menu(newbtns)
+            });
+          });
+        });
+
+        btns.creditsBtn.addEventListener('click', ()=> {
+          updateMenu();
+          scene.dom.render.menuText('Created By HeflerDev', (btn) => {
+            btn.addEventListener('click', () => {
+              updateMenu();
+              const newbtns = scene.dom.render.menu();
+              this.menu(newbtns)
+            });
+          });
+        });
+      }
+
+      createCharacterTab(elements, playerObj) {
+        // Do something for the buttons
+      }
+
+    }
+    return { render, addControllerOn };
   };
   return { CreateDOM };
 })();
