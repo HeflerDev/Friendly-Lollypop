@@ -1,3 +1,5 @@
+import AudioFile from '../assets/sound/Menu/increase.mp3';
+
 const domModule = (() => {
   const CreateDOM = (scene) => {
     const render = {
@@ -103,8 +105,22 @@ const domModule = (() => {
         const force = createStatsContainer('Force');
         const inteligence = createStatsContainer('Inteligence');
         const dex = createStatsContainer('Dex');
+        this.element('free-points-container', 'stats-container', 'div', ['minibox']);
+        this.element('free-points-text', 'free-points-container', 'div').textContent = 'Free Points: ';
+        const freePnts = this.element('free-points-number', 'free-points-container', 'div');
+        freePnts.textContent = 5;
+
+        const errorWarnings = this.element('error-container', 'create-tab', 'div', ['box', 'col-12']);
+
+        this.element('submit-container', 'create-tab', 'div', ['box', 'col-12']);
+        const submitBtn = this.element('submit-btn', 'submit-container', 'button');
+        submitBtn.textContent = 'Create Character';
+        
 
         return {
+          submitBtn,
+          errorWarnings,
+          freePnts,
           nameInput,
           force,
           inteligence,
@@ -163,10 +179,61 @@ const domModule = (() => {
             });
           });
         });
-      }
+      },
 
-      createCharacterTab(elements, playerObj) {
-        // Do something for the buttons
+      createCharacterTab(elements, playerObj, onSubmit) {
+
+        let audio = new Audio(AudioFile);
+        
+        elements.force.plusBtn.addEventListener('click', () => { 
+          playerObj.addFor();
+          elements.force.counterNumber.textContent = playerObj.stats.for;
+          elements.freePnts.textContent = playerObj.stats.free;
+        audio.currentTime = 0;
+          audio.play();
+        });
+        elements.force.minusBtn.addEventListener('click', () => { 
+          playerObj.rmFor() 
+          elements.force.counterNumber.textContent = playerObj.stats.for;
+          elements.freePnts.textContent = playerObj.stats.free;
+        audio.currentTime = 0;
+          audio.play();
+        });
+
+        elements.inteligence.plusBtn.addEventListener('click', () => { 
+          playerObj.addInt() 
+          elements.inteligence.counterNumber.textContent = playerObj.stats.int;
+          elements.freePnts.textContent = playerObj.stats.free;
+        audio.currentTime = 0;
+          audio.play();
+        });
+        elements.inteligence.minusBtn.addEventListener('click', () => { 
+          playerObj.rmInt() 
+          elements.inteligence.counterNumber.textContent = playerObj.stats.int;
+          elements.freePnts.textContent = playerObj.stats.free;
+        audio.currentTime = 0;
+          audio.play();
+        });
+        
+        elements.dex.plusBtn.addEventListener('click', () => { 
+          playerObj.addDex() 
+          elements.dex.counterNumber.textContent = playerObj.stats.dex;
+          elements.freePnts.textContent = playerObj.stats.free;
+        audio.currentTime = 0;
+          audio.play();
+        } );
+        elements.dex.minusBtn.addEventListener('click', () => { 
+          playerObj.rmDex() 
+          elements.dex.counterNumber.textContent = playerObj.stats.dex;
+          elements.freePnts.textContent = playerObj.stats.free;
+        audio.currentTime = 0;
+          audio.play();
+        });
+
+        elements.submitBtn.addEventListener('click', () => {
+          playerObj.name = elements.nameInput.value; 
+          onSubmit(playerObj);
+        });
       }
 
     }

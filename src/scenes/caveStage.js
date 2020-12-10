@@ -1,30 +1,37 @@
 import Phaser from 'phaser';
 
-import playerModule from '../modules/playerModule';
+import actorModule from '../modules/actorModule';
 import foesModule from '../modules/foesModule';
 import stagesModule from '../modules/stagesModule';
 import layerModule from '../modules/layerModule';
 import hudModule from '../modules/hudModule';
 
 export default class CaveStage extends Phaser.Scene {
+
+  
+
   constructor() {
     super('cave-stage');
-
     this.score = 0;
+    
+    
 
-    this.endGame = false;
-
-    this.player = playerModule.Player('Johnny', this);
-    this.stage = stagesModule.Stage(this).cave;
-    this.bat = foesModule.Foe('bat', this).bat;
-    this.enemies = [];
+    // Checkers
     this.isColliding = false;
     this.currentFo = null;
-    this.hud = hudModule.Hud(this.player.information, this);
+
+    // this.hud = hudModule.Hud(this.player.information, this);
+  }
+
+  init(data) {
+    this.player = actorModule.PlayableActor(data, this);
+    this.bat = foesModule.Foe('bat', this).bat;
+    this.stage = stagesModule.Stage(this).cave;
+    this.enemies = [];
   }
 
   preload() {
-    // Actors
+    // Actors Sprites 
     this.player.animations.loadSprites();
     this.bat.animations.loadSprites();
     // Stage
@@ -48,12 +55,12 @@ export default class CaveStage extends Phaser.Scene {
     this.player.controls.movePlayer(this.player.character.body, this.level.layer, () => {
       this.player.information.situation.moves += 1;
 
-      if (
+      if ( // Check if player is on a hazardous area
         this.dinamicLayer
           .tileIsDeadly(this.player.character.body, this.player.information.situation.isAlive)) {
         this.player.information.situation.currentHp -= 4;
       }
-    }, () => {
+    }, () => { // When close Enough to attacj
       if (this.isColliding) {
         if (this.player.information.situation.moves <= this.player.information.stats.dex - 1) {
           this.player.animations.playSprites(this.player.character.body, 'attack', 500);
@@ -68,7 +75,7 @@ export default class CaveStage extends Phaser.Scene {
       } else {
         this.player.animations.playSprites(this.player.character.body, 'blink', 500);
       }
-    }, () => {
+    }, () => { // When is the enemy Turn
       this.enemies.forEach((enemy) => {
         if (enemy.body.active) {
           while (enemy.data.moves < enemy.data.stats.dex) {
@@ -84,14 +91,11 @@ export default class CaveStage extends Phaser.Scene {
       this.bat.body.spawnRandomDependingOnScore();
       this.player.information.situation.moves = 0;
     });
-    if (this.currentFoe) {
+    if (this.currentFoe) { // Check if the foe is killed
       if (this.currentFoe.data.currentHp <= 0) {
         this.score += 5;
         this.currentFoe.body.destroy();
       }
-    }
-    if (this.endGame) {
-      this.scene.start('menu');
     }
     this.hud.elements.update();
     this.isColliding = false;

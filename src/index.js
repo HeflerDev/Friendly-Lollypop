@@ -21,7 +21,7 @@ const config = {
       debug: false,
     },
   },
-  scene: [CreateCharacterMenu,Menu, CaveStage],
+  scene: [Menu, CreateCharacterMenu, CaveStage],
 };
 
 export default new Phaser.Game(config);

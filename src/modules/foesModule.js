@@ -1,5 +1,5 @@
 import BatSprite from '../assets/characters/bat.png';
-import create from '../storage/create';
+import create from '../storage/createNew';
 
 const foesModule = (() => {
   const Foe = (id, scene) => {

@@ -10,7 +10,6 @@ export default class Menu extends Phaser.Scene {
   }
 
   preload() {
-    this.load.html('menu-form');
     this.load.audio('buzz', Buzz);
     this.load.audio('select', SelectSound);
   }
@@ -23,7 +22,7 @@ export default class Menu extends Phaser.Scene {
 
     this.dom.render.container(width / 2, height / 2, 'game-menu');
 
-    const btns = this.dom.render.menu('menu-form');
+    const btns = this.dom.render.menu();
     this.dom.addControllerOn.menu(btns);
 
   }

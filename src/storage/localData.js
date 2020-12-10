@@ -1,10 +1,18 @@
-import createNew from './createNew';
-
 const localData = (() => {
-  const createNewPlayerData = (key) => {
-    const playerData = createNew.Player(key);
-    localStorage.setItem(key, JSON.stringify(playerData));
-    return ({ key: playerData });
+
+  async function createNewPlayerData(obj) {
+    return new Promise((resolve, reject) => {
+      if (localStorage.getItem(obj.name)) {
+        reject(`${obj.name} is already assigned to the database`);
+      } else if (obj.stats.free > 0) {
+        reject('All points must be assigned');
+      } else {
+        resolve(obj);
+      }
+    }).then((obj) => { 
+      localStorage.setItem(obj.name, JSON.stringify(obj))
+      console.log('Data is Stored');
+    });
   };
 
   const updatePlayerData = (key, value) => {

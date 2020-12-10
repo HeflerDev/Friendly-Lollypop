@@ -1,15 +1,15 @@
 const createNew = (() => {
-  const Player = (key) => ({
-    name: key,
+  const Player = () => ({
+    name: 'Sample',
     type: 'Humanoid',
     points: 0,
     level: 1,
     xp: 0,
     stats: {
-      for: 1,
-      int: 1,
-      dex: 1,
-      free: 2,
+      for: 0,
+      int: 0,
+      dex: 0,
+      free: 5,
       getMaxHp() { return (10 + this.for * 2) },
       getMaxMp() { return (10 + this.int * 2) },
       getMaxEnergy() { return (100 + this.dex * 10) },
@@ -35,28 +35,47 @@ const createNew = (() => {
       rightHand: {},
     },
 
-    setStatPoint: {
       addFor() {
-        if (stats.free > 0) {
-          stats.for += 1;
-          stats.free -= 1;
+        if (this.stats.free > 0) {
+          this.stats.for += 1;
+          this.stats.free -= 1;
+        }
+      },
+      
+      rmFor() {
+        if (this.stats.for >= 1) {
+          this.stats.for -= 1;
+          this.stats.free += 1;
         }
       },
 
       addInt() {
-        if(stats.free > 0) {
-          stats.int += 1;
-          stats.free -= 1;
+        if(this.stats.free > 0) {
+          this.stats.int += 1;
+          this.stats.free -= 1;
+        }
+      },
+
+      rmInt() {
+        if (this.stats.int >= 1){
+          this.stats.int -= 1;
+          this.stats.free += 1;
         }
       },
 
       addDex() {
-        if (stats.free > 0) {
-          stats.dex += 1;
-          stats.free -= 1;
+        if (this.stats.free > 0) {
+          this.stats.dex += 1;
+          this.stats.free -= 1;
         }
       },
-    },
+
+      rmDex() {
+        if (this.stats.dex >= 1) {
+          this.stats.dex -= 1;
+          this.stats.free += 1;
+        }
+      },
 
     die() {
       this.situation.isAlive = false;
@@ -86,7 +105,7 @@ const createNew = (() => {
         this.levelUp();
         this.xp += rest;
       }
-    }
+    },
 
     lootItem(item) {
       if (this.inventory.items.length >= this.inventory.size) {
@@ -96,9 +115,9 @@ const createNew = (() => {
 
   });
 
-  const SmallAnimal = (key, level) => ({
+  const SmallAnimal = (key) => ({
     name: key,
-    level: level,
+    level: 1,
     isAlive: true,
     stats: {
       maxHp: 3,
@@ -108,11 +127,12 @@ const createNew = (() => {
     },
     currentHp: 3,
     moves: 0,
-    initialize() {
-      this.stats.maxHp = 3 + level + this.for;
-      this.stats.for = Math.floor(1 + level/3);
-      this.stats.dex = 3 + level
-    };
+    initialize(lvl) {
+      this.stats.maxHp = 3 + lvl + this.for;
+      this.stats.for = Math.floor(1 + lvl/3);
+      this.stats.dex = 3 + level;
+      this.level = lvl;
+    }
   });
 
   const Item = (name, description = '', type, effects, weight) => {
