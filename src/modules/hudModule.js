@@ -7,7 +7,7 @@ const hudModule = (() => {
 
       gatherData() {
         return {
-          movesLeftText: `Moves Left: ${2 - playerInfo.situation.moves}`,
+          movesLeftText: `Moves Left: ${playerInfo.stats.dex - playerInfo.situation.moves}`,
           playerHpText: `HP:${playerInfo.situation.currentHp}`,
           movesMadeText: `Score:${scene.score}`,
         };

@@ -1,5 +1,5 @@
 import BatSprite from '../assets/characters/bat.png';
-import create from '../storage/createNew';
+import createNew from '../storage/createNew';
 
 const foesModule = (() => {
   const Foe = (id, scene) => {
@@ -32,7 +32,7 @@ const foesModule = (() => {
         spawnRandom() {
           const coord = scene.dinamicLayer.generateRandomFreeBlockPosition();
           const body = scene.physics.add.sprite(coord.randX, coord.randY, id);
-          const data = create.newAnimalData(id);
+          const data = createNew.SmallAnimal(id);
           const obj = { body, data };
 
           scene.enemies.push(obj);
@@ -44,7 +44,7 @@ const foesModule = (() => {
 
           return {
             body,
-            data: create.newAnimalData(id),
+            data: createNew.SmallAnimal(id),
           };
         },
 
@@ -93,11 +93,11 @@ const foesModule = (() => {
           },
           attack(enemyBody, playerBody) {
             scene.physics.add.overlap(playerBody, enemyBody, () => {
-              enemyBody.body.touching.none = false;
+             enemyBody.body.touching.none = false;
             });
             if (!enemyBody.body.touching.none) {
               scene.player.animations.playSprites(playerBody, 'takeDamage', 500);
-              scene.player.information.situation.currentHp -= 1;
+              scene.player.data.takeDamage(Math.floor(Math.random() * 5));
             }
           },
         },

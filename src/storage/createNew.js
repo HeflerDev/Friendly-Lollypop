@@ -6,10 +6,10 @@ const createNew = (() => {
     level: 1,
     xp: 0,
     stats: {
-      for: 0,
-      int: 0,
-      dex: 0,
-      free: 5,
+      for: 1,
+      int: 1,
+      dex: 1,
+      free: 2,
       getMaxHp() { return (10 + this.for * 2) },
       getMaxMp() { return (10 + this.int * 2) },
       getMaxEnergy() { return (100 + this.dex * 10) },
@@ -43,7 +43,7 @@ const createNew = (() => {
       },
       
       rmFor() {
-        if (this.stats.for >= 1) {
+        if (this.stats.for > 1) {
           this.stats.for -= 1;
           this.stats.free += 1;
         }
@@ -57,7 +57,7 @@ const createNew = (() => {
       },
 
       rmInt() {
-        if (this.stats.int >= 1){
+        if (this.stats.int > 1){
           this.stats.int -= 1;
           this.stats.free += 1;
         }
@@ -71,7 +71,7 @@ const createNew = (() => {
       },
 
       rmDex() {
-        if (this.stats.dex >= 1) {
+        if (this.stats.dex > 1) {
           this.stats.dex -= 1;
           this.stats.free += 1;
         }
@@ -83,6 +83,7 @@ const createNew = (() => {
 
     takeDamage(bruteDamage) {
       const damage = bruteDamage - this.stats.for;
+      console.log(bruteDamage, damage);
       if (damage > 0) {
         this.situation.currentHp -= damage
         if (this.situation.currentHp <= 0) {

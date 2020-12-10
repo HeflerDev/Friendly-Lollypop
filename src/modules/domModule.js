@@ -80,7 +80,7 @@ const domModule = (() => {
           this.element(`${label}-label`, `${label}-container`, 'div', 'noClass')
             .textContent = label;
           const counterNumber = this.element(`${label}-counter`, `${label}-container`, 'div', 'noClass');
-          counterNumber.textContent = '0';
+          counterNumber.textContent = '1';
           this.element(`${label}-btns-container`, `${label}-container`, 'div', 'noClass');
             const minusBtn = this.element(`${label}--`, `${label}-btns-container`, 'button', 'noClass');
             minusBtn.textContent = '-';
@@ -108,7 +108,7 @@ const domModule = (() => {
         this.element('free-points-container', 'stats-container', 'div', ['minibox']);
         this.element('free-points-text', 'free-points-container', 'div').textContent = 'Free Points: ';
         const freePnts = this.element('free-points-number', 'free-points-container', 'div');
-        freePnts.textContent = 5;
+        freePnts.textContent = 2;
 
         const errorWarnings = this.element('error-container', 'create-tab', 'div', ['box', 'col-12']);
 
