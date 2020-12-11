@@ -31,7 +31,7 @@ export default class CreateCharacter extends Phaser.Scene {
           this.audio.play();
           this.scene.start('cave-stage', playerObj);
         })
-        .catch((err) => { console.log(err) });
+        .catch((err) => { this.dom.render.errorMsg('error-container', err)});
     });
   }
 

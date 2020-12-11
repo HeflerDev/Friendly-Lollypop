@@ -3,7 +3,9 @@ const localData = (() => {
   async function createNewPlayerData(obj) {
     return new Promise((resolve, reject) => {
       if (localStorage.getItem(obj.name)) {
-        reject(`${obj.name} is already assigned to the database`);
+        reject(`'${obj.name}' is unavaiable`);
+      } else if (obj.name === '') {
+        reject('Name must not be empty');
       } else if (obj.stats.free > 0) {
         reject('All points must be assigned');
       } else {
@@ -11,7 +13,6 @@ const localData = (() => {
       }
     }).then((obj) => { 
       localStorage.setItem(obj.name, JSON.stringify(obj))
-      console.log('Data is Stored');
     });
   };
 
@@ -32,10 +33,17 @@ const localData = (() => {
 
   const retrievePlayerData = (key) => JSON.parse(localStorage.getItem(key));
 
+  const retrieveDatabase = (callback) => { 
+    Object.keys(localStorage).forEach((item) => {
+      callback(JSON.parse(item));
+    });
+  }
+
   return {
     createNewPlayerData,
     updatePlayerData,
     retrievePlayerData,
+    retrieveDatabase
   };
 })();
 

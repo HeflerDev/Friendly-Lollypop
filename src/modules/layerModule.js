@@ -44,8 +44,8 @@ const layerModule = (() => {
         let randX;
         let randY;
         while (loop) {
-          randX = Math.floor(Math.random() * 801);
-          randY = Math.floor(Math.random() * 513);
+          randX = Math.floor(Math.random() * 700);
+          randY = Math.floor(Math.random() * 400);
 
           if (randX % 16 !== 0) {
             randX += 16 - (randX % 16);

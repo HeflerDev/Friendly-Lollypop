@@ -1,4 +1,5 @@
 import AudioFile from '../assets/sound/Menu/increase.mp3';
+import localData from '../storage/localData';
 
 const domModule = (() => {
   const CreateDOM = (scene) => {
@@ -63,6 +64,16 @@ const domModule = (() => {
         };
       },
 
+      loadGameMenu() {
+        this.element('load-container', 'load-game', 'div', ['col-12', 'box']);
+        localStorage.retrieveDatabase((character) => {
+          this.element('character-container', 'load-container', 'div', 'minibox');
+            this.element('character-name', 'character-container', 'div').textContent = character.name;
+            this.element('character-level', 'character-container', 'div').textContent = character.level;
+        });
+        return { generateCharacterContainer };
+      },
+
       menuText(txt, returnBtn) {
         this.element('instructions-container', 'game-menu');
         this.element('txt', 'instructions-container', 'p').innerHTML = txt;
@@ -72,6 +83,12 @@ const domModule = (() => {
         btn.style.color = 'whitesmoke';
         btn.style.border = 'solid pink 2px';
         returnBtn(btn);
+      },
+
+      errorMsg(parentId, msg) {
+        const checker = document.getElementById(parentId).firstChild;
+        if (checker) { checker.remove() };
+        this.element('error-msg', parentId, 'p', 'error-message').textContent = msg;
       },
 
       createCharacterTab() {
@@ -148,14 +165,7 @@ const domModule = (() => {
         });
 
         btns.loadGameBtn.addEventListener('click', () => {
-          updateMenu();
-          scene.dom.render.menuText('not avaiable', (btn) => {
-            btn.addEventListener('click', () => {
-              updateMenu();
-              const newbtns = scene.dom.render.menu();
-              this.menu(newbtns)
-            });
-          });
+          scene.scene.start('load-game-menu');
         });
 
         btns.instructionsBtn.addEventListener('click', () => {
@@ -179,6 +189,10 @@ const domModule = (() => {
             });
           });
         });
+      },
+
+      loadGameMenu() {
+        
       },
 
       createCharacterTab(elements, playerObj, onSubmit) {
