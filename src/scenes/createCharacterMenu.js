@@ -27,6 +27,8 @@ export default class CreateCharacter extends Phaser.Scene {
     this.dom.addControllerOn.createCharacterTab(elements, this.player, (playerObj) => {
       createNewPlayerData(playerObj)
         .then(() => { 
+          console.log(playerObj);
+          console.log(JSON.parse(JSON.stringify(playerObj)));
           this.audio.currentTime = 0;
           this.audio.play();
           this.scene.start('cave-stage', playerObj);

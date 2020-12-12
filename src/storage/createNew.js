@@ -35,69 +35,6 @@ const createNew = (() => {
       rightHand: {},
     },
 
-      addFor() {
-        if (this.stats.free > 0) {
-          this.stats.for += 1;
-          this.stats.free -= 1;
-        }
-      },
-      
-      rmFor() {
-        if (this.stats.for > 1) {
-          this.stats.for -= 1;
-          this.stats.free += 1;
-        }
-      },
-
-      addInt() {
-        if(this.stats.free > 0) {
-          this.stats.int += 1;
-          this.stats.free -= 1;
-        }
-      },
-
-      rmInt() {
-        if (this.stats.int > 1){
-          this.stats.int -= 1;
-          this.stats.free += 1;
-        }
-      },
-
-      addDex() {
-        if (this.stats.free > 0) {
-          this.stats.dex += 1;
-          this.stats.free -= 1;
-        }
-      },
-
-      rmDex() {
-        if (this.stats.dex > 1) {
-          this.stats.dex -= 1;
-          this.stats.free += 1;
-        }
-      },
-
-    die() {
-      this.situation.isAlive = false;
-    },
-
-    takeDamage(bruteDamage) {
-      const damage = bruteDamage - this.stats.for;
-      console.log(bruteDamage, damage);
-      if (damage > 0) {
-        this.situation.currentHp -= damage
-        if (this.situation.currentHp <= 0) {
-          this.die();
-        }
-      }
-    },
-
-    levelUp() {
-      this.level += 1;
-      this.stats.free += 2;
-      this.xp = 0;
-    },
-
     gainXp(amount) {
       const ceiling = this.level * 5;
       this.xp += amount;

@@ -97,7 +97,7 @@ const foesModule = (() => {
             });
             if (!enemyBody.body.touching.none) {
               scene.player.animations.playSprites(playerBody, 'takeDamage', 500);
-              scene.player.data.takeDamage(Math.floor(Math.random() * 5));
+              scene.player.logic.takeDamage(Math.floor(Math.random() * 5));
             }
           },
         },

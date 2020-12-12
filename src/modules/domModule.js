@@ -65,13 +65,18 @@ const domModule = (() => {
       },
 
       loadGameMenu() {
+        const listeners = [];
         this.element('load-container', 'load-game', 'div', ['col-12', 'box']);
-        localStorage.retrieveDatabase((character) => {
-          this.element('character-container', 'load-container', 'div', 'minibox');
-            this.element('character-name', 'character-container', 'div').textContent = character.name;
-            this.element('character-level', 'character-container', 'div').textContent = character.level;
+          this.element('info-container', 'load-container', 'div', ['minibox', 'around']);
+          this.element('char-name-text', 'info-container', 'div').textContent = 'Name';
+          this.element('char-level-text', 'info-container', 'div').textContent = 'Level';
+        localData.retrieveDatabase((index, character) => {
+          const box = this.element(`character-container-${index}`, 'load-container', 'div', ['minibox', 'char-container']);
+            this.element(`character-name-${index}`, `character-container-${index}`, 'div').textContent = character.name;
+            this.element(`character-level-${index}`, `character-container-${index}`, 'div').textContent = character.level;
+          listeners.push([box, character.name]);
         });
-        return { generateCharacterContainer };
+        return listeners;
       },
 
       menuText(txt, returnBtn) {
@@ -191,8 +196,15 @@ const domModule = (() => {
         });
       },
 
-      loadGameMenu() {
-        
+      loadGameMenu(btns) {
+        btns.forEach((item) => {
+          const [listener, charName] = item; 
+          listener.addEventListener('click', () => {
+           const player = localData.retrievePlayerData(charName);
+            console.log(player);
+            scene.scene.start('cave-stage', player);
+          });
+        });
       },
 
       createCharacterTab(elements, playerObj, onSubmit) {

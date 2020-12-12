@@ -8,6 +8,8 @@ $font-main: 'Press Start 2P', cursive;
 $color-primary: rgb(190, 16, 150);
 $color-primary-dark: rgb(220, 150, 200);
 
+$color-selection: rgba(190, 16, 150, 0.4);
+
 $border-primary: solid $color-primary 0.5rem;
 
 * {
@@ -31,4 +33,12 @@ button {
 
 .error-message {
   color: red;
+}
+
+.char-container {
+  justify-content: space-around;
+  border: $border-primary;
+  &:hover {
+    background-color: $color-selection; 
+  }
 }

@@ -3,23 +3,85 @@ import RogueSprite from '../assets/characters/rogue.png';
 
 const actorModule = (() => {
   const PlayableActor = (dataObj, scene) => {
-
     const data = dataObj;
 
     const logic = {
       trackHealth(playerBody) {
         if (data.situation.currentHp <= 0) {
           if (data.situation.isAlive) { playerBody.anims.play('die', true); }
-          data.die();
+          this.die();
           setTimeout(() => {
             scene.scene.restart();
-            scene.player.data.situation.isAlive = true;
-            scene.player.data.situation.moves = 2;
-            scene.player.data.situation.currentHp = scene.player.data.stats.maxHp;
+            data.situation.isAlive = true;
+            data.situation.moves = data.stats.dex;
+            data.situation.currentHp = scene.player.data.stats.maxHp;
             scene.score = 0;
           }, 3000);
         }
       },
+
+      die() {
+        data.situation.isAlive = false;
+      },
+
+      takeDamage(bruteDamage) {
+        const damage = bruteDamage - data.stats.for;
+        console.log(bruteDamage, damage);
+        if (damage > 0) {
+          data.situation.currentHp -= damage
+          if (data.situation.currentHp <= 0) {
+            this.die();
+          }
+        }
+      },
+
+      levelUp() {
+        this.level += 1;
+        this.stats.free += 2;
+        this.xp = 0;
+      },
+
+        addFor() {
+          if (data.stats.free > 0) {
+            data.stats.for += 1;
+            data.stats.free -= 1;
+          }
+        },
+        
+        rmFor() {
+          if (data.stats.for > 1) {
+            data.stats.for -= 1;
+            data.stats.free += 1;
+          }
+        },
+
+        addInt() {
+          if(data.stats.free > 0) {
+            data.stats.int += 1;
+            data.stats.free -= 1;
+          }
+        },
+
+        rmInt() {
+          if (dataObj.stats.int > 1){
+            data.stats.int -= 1;
+            data.stats.free += 1;
+          }
+        },
+
+        addDex() {
+          if (data.stats.free > 0) {
+            data.stats.dex += 1;
+            data.stats.free -= 1;
+          }
+        },
+
+        rmDex() {
+          if (data.stats.dex > 1) {
+            data.stats.dex -= 1;
+            data.stats.free += 1;
+          }
+        },
     };
 
     const character = {

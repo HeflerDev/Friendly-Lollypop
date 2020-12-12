@@ -1,3 +1,4 @@
+
 const localData = (() => {
 
   async function createNewPlayerData(obj) {
@@ -34,8 +35,8 @@ const localData = (() => {
   const retrievePlayerData = (key) => JSON.parse(localStorage.getItem(key));
 
   const retrieveDatabase = (callback) => { 
-    Object.keys(localStorage).forEach((item) => {
-      callback(JSON.parse(item));
+    Object.keys(localStorage).forEach((item, index) => {
+      callback(index, JSON.parse(localStorage.getItem(item)));
     });
   }
 
