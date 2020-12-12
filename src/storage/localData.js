@@ -1,6 +1,5 @@
-
 const localData = (() => {
-
+  /* eslint-disable */
   async function createNewPlayerData(obj) {
     return new Promise((resolve, reject) => {
       if (localStorage.getItem(obj.name)) {
@@ -12,11 +11,11 @@ const localData = (() => {
       } else {
         resolve(obj);
       }
-    }).then((obj) => { 
-      localStorage.setItem(obj.name, JSON.stringify(obj))
+    }).then((obj) => {
+      localStorage.setItem(obj.name, JSON.stringify(obj));
     });
-  };
-
+  }
+  /* eslint-enable */
   const updatePlayerData = (key, value) => {
     new Promise((resolve, reject) => {
       if (localStorage.getItem(key)) {
@@ -34,18 +33,18 @@ const localData = (() => {
 
   const retrievePlayerData = (key) => JSON.parse(localStorage.getItem(key));
 
-  const retrieveDatabase = (callback) => { 
+  const retrieveDatabase = (callback) => {
     Object.keys(localStorage).forEach((item, index) => {
       callback(index, JSON.parse(localStorage.getItem(item)));
     });
-  }
+  };
 
   return {
     createNewPlayerData,
     updatePlayerData,
     retrievePlayerData,
-    retrieveDatabase
+    retrieveDatabase,
   };
 })();
 
-module.exports = localData;
+export default localData;

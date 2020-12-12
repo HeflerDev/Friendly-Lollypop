@@ -93,7 +93,7 @@ const foesModule = (() => {
           },
           attack(enemyBody, playerBody) {
             scene.physics.add.overlap(playerBody, enemyBody, () => {
-             enemyBody.body.touching.none = false;
+              enemyBody.body.touching.none = false;
             });
             if (!enemyBody.body.touching.none) {
               scene.player.animations.playSprites(playerBody, 'takeDamage', 500);

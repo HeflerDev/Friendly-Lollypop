@@ -7,9 +7,6 @@ import layerModule from '../modules/layerModule';
 import hudModule from '../modules/hudModule';
 
 export default class CaveStage extends Phaser.Scene {
-
-  
-
   constructor() {
     super('cave-stage');
     this.score = 0;
@@ -18,7 +15,7 @@ export default class CaveStage extends Phaser.Scene {
     this.currentFo = null;
   }
 
-  init(data) { 
+  init(data) {
     this.player = actorModule.PlayableActor(data, this);
     this.bat = foesModule.Foe('bat', this).bat;
     this.stage = stagesModule.Stage(this).cave;
@@ -27,7 +24,7 @@ export default class CaveStage extends Phaser.Scene {
   }
 
   preload() {
-    // Actors Sprites 
+    // Actors Sprites
     this.player.animations.loadSprites();
     this.bat.animations.loadSprites();
     // Stage

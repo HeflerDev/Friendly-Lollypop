@@ -10,9 +10,9 @@ const createNew = (() => {
       int: 1,
       dex: 1,
       free: 2,
-      getMaxHp() { return (10 + this.for * 2) },
-      getMaxMp() { return (10 + this.int * 2) },
-      getMaxEnergy() { return (100 + this.dex * 10) },
+      getMaxHp() { return (10 + this.for * 2); },
+      getMaxMp() { return (10 + this.int * 2); },
+      getMaxEnergy() { return (100 + this.dex * 10); },
     },
     situation: {
       currentHp: 10,
@@ -48,8 +48,8 @@ const createNew = (() => {
     lootItem(item) {
       if (this.inventory.items.length >= this.inventory.size) {
         this.inventory.push(item);
-      };
-    }
+      }
+    },
 
   });
 
@@ -67,10 +67,10 @@ const createNew = (() => {
     moves: 0,
     initialize(lvl) {
       this.stats.maxHp = 3 + lvl + this.for;
-      this.stats.for = Math.floor(1 + lvl/3);
-      this.stats.dex = 3 + level;
+      this.stats.for = Math.floor(1 + lvl / 3);
+      this.stats.dex = 3 + this.level;
       this.level = lvl;
-    }
+    },
   });
 
   const Item = (name, description = '', type, effects, weight) => {

@@ -47,15 +47,15 @@ const domModule = (() => {
       menu() {
         this.element('menu-container', 'game-menu', 'div', ['col-12', 'box']);
         this.element('row-one', 'menu-container', 'div', ['col-12', 'minibox', 'between']);
-          const newGameBtn = this.element('new-game-button', 'row-one', 'button', 'col-5');
-          newGameBtn.textContent = 'New Game';
-          const loadGameBtn = this.element('load-game-button', 'row-one', 'button', 'col-5');
-          loadGameBtn.textContent = 'Load Game';
+        const newGameBtn = this.element('new-game-button', 'row-one', 'button', 'col-5');
+        newGameBtn.textContent = 'New Game';
+        const loadGameBtn = this.element('load-game-button', 'row-one', 'button', 'col-5');
+        loadGameBtn.textContent = 'Load Game';
         this.element('row-two', 'menu-container', 'div', ['col-12', 'minibox']);
-          const instructionsBtn = this.element('instructions-button', 'row-two', 'button', 'col-6');
-          instructionsBtn.textContent = 'Instructions';
-          const creditsBtn = this.element('instructions-button', 'row-two', 'button', 'col-6');
-          creditsBtn.textContent = 'Credits';
+        const instructionsBtn = this.element('instructions-button', 'row-two', 'button', 'col-6');
+        instructionsBtn.textContent = 'Instructions';
+        const creditsBtn = this.element('instructions-button', 'row-two', 'button', 'col-6');
+        creditsBtn.textContent = 'Credits';
         return {
           newGameBtn,
           loadGameBtn,
@@ -67,13 +67,13 @@ const domModule = (() => {
       loadGameMenu() {
         const listeners = [];
         this.element('load-container', 'load-game', 'div', ['col-12', 'box']);
-          this.element('info-container', 'load-container', 'div', ['minibox', 'around']);
-          this.element('char-name-text', 'info-container', 'div').textContent = 'Name';
-          this.element('char-level-text', 'info-container', 'div').textContent = 'Level';
+        this.element('info-container', 'load-container', 'div', ['minibox', 'around']);
+        this.element('char-name-text', 'info-container', 'div').textContent = 'Name';
+        this.element('char-level-text', 'info-container', 'div').textContent = 'Level';
         localData.retrieveDatabase((index, character) => {
           const box = this.element(`character-container-${index}`, 'load-container', 'div', ['minibox', 'char-container']);
-            this.element(`character-name-${index}`, `character-container-${index}`, 'div').textContent = character.name;
-            this.element(`character-level-${index}`, `character-container-${index}`, 'div').textContent = character.level;
+          this.element(`character-name-${index}`, `character-container-${index}`, 'div').textContent = character.name;
+          this.element(`character-level-${index}`, `character-container-${index}`, 'div').textContent = character.level;
           listeners.push([box, character.name]);
         });
         return listeners;
@@ -92,29 +92,29 @@ const domModule = (() => {
 
       errorMsg(parentId, msg) {
         const checker = document.getElementById(parentId).firstChild;
-        if (checker) { checker.remove() };
+        if (checker) { checker.remove(); }
         this.element('error-msg', parentId, 'p', 'error-message').textContent = msg;
       },
 
       createCharacterTab() {
         const createStatsContainer = (label) => {
-        this.element(`${label}-container`, 'stats-container', 'div', ['minibox', 'col-12', 'between']);
+          this.element(`${label}-container`, 'stats-container', 'div', ['minibox', 'col-12', 'between']);
           this.element(`${label}-label`, `${label}-container`, 'div', 'noClass')
             .textContent = label;
           const counterNumber = this.element(`${label}-counter`, `${label}-container`, 'div', 'noClass');
           counterNumber.textContent = '1';
           this.element(`${label}-btns-container`, `${label}-container`, 'div', 'noClass');
-            const minusBtn = this.element(`${label}--`, `${label}-btns-container`, 'button', 'noClass');
-            minusBtn.textContent = '-';
-            const plusBtn = this.element(`${label}++`, `${label}-btns-container`, 'button', 'noClass');
-            plusBtn.textContent = '+';
+          const minusBtn = this.element(`${label}--`, `${label}-btns-container`, 'button', 'noClass');
+          minusBtn.textContent = '-';
+          const plusBtn = this.element(`${label}++`, `${label}-btns-container`, 'button', 'noClass');
+          plusBtn.textContent = '+';
 
           return {
             counterNumber,
             minusBtn,
-            plusBtn
-          }
-        }
+            plusBtn,
+          };
+        };
 
         this.element('create-tab', 'game-menu', 'div', ['col-12']);
         this.element('name-container', 'create-tab', 'div', ['minibox', 'col-12']);
@@ -137,7 +137,6 @@ const domModule = (() => {
         this.element('submit-container', 'create-tab', 'div', ['box', 'col-12']);
         const submitBtn = this.element('submit-btn', 'submit-container', 'button');
         submitBtn.textContent = 'Create Character';
-        
 
         return {
           submitBtn,
@@ -146,9 +145,8 @@ const domModule = (() => {
           nameInput,
           force,
           inteligence,
-          dex
-        }
-
+          dex,
+        };
       },
     };
 
@@ -158,11 +156,12 @@ const domModule = (() => {
         const updateMenu = () => {
           scene.sound.play('select');
           document.getElementById('game-menu').firstChild.remove();
+        };
+        /* eslint-disable */
+        for (const [, value] of Object.entries(btns)) {
+          value.onmouseover = () => { scene.sound.play('buzz'); };
         }
-
-        for (const [key, value] of Object.entries(btns)) {
-          value.onmouseover = () => { scene.sound.play('buzz')};
-        }
+        /* eslint-enable */
 
         btns.newGameBtn.addEventListener('click', () => {
           updateMenu();
@@ -179,18 +178,18 @@ const domModule = (() => {
             btn.addEventListener('click', () => {
               updateMenu();
               const newbtns = scene.dom.render.menu();
-              this.menu(newbtns)
+              this.menu(newbtns);
             });
           });
         });
 
-        btns.creditsBtn.addEventListener('click', ()=> {
+        btns.creditsBtn.addEventListener('click', () => {
           updateMenu();
           scene.dom.render.menuText('Created By HeflerDev', (btn) => {
             btn.addEventListener('click', () => {
               updateMenu();
               const newbtns = scene.dom.render.menu();
-              this.menu(newbtns)
+              this.menu(newbtns);
             });
           });
         });
@@ -198,72 +197,70 @@ const domModule = (() => {
 
       loadGameMenu(btns) {
         btns.forEach((item) => {
-          const [listener, charName] = item; 
+          const [listener, charName] = item;
           listener.addEventListener('click', () => {
-           const player = localData.retrievePlayerData(charName);
-            console.log(player);
+            const player = localData.retrievePlayerData(charName);
             scene.scene.start('cave-stage', player);
           });
         });
       },
 
       createCharacterTab(elements, playerObj, onSubmit) {
+        const audio = new Audio(AudioFile);
 
-        let audio = new Audio(AudioFile);
-        
-        elements.force.plusBtn.addEventListener('click', () => { 
+        elements.force.plusBtn.addEventListener('click', () => {
           scene.player.logic.addFor();
           elements.force.counterNumber.textContent = scene.player.data.stats.for;
           elements.freePnts.textContent = scene.player.data.stats.free;
-        audio.currentTime = 0;
+          audio.currentTime = 0;
           audio.play();
         });
-        elements.force.minusBtn.addEventListener('click', () => { 
-          scene.player.logic.rmFor() 
+        elements.force.minusBtn.addEventListener('click', () => {
+          scene.player.logic.rmFor();
           elements.force.counterNumber.textContent = scene.player.data.stats.for;
           elements.freePnts.textContent = scene.player.data.stats.free;
-        audio.currentTime = 0;
+          audio.currentTime = 0;
           audio.play();
         });
 
-        elements.inteligence.plusBtn.addEventListener('click', () => { 
-          scene.player.logic.addInt() 
+        elements.inteligence.plusBtn.addEventListener('click', () => {
+          scene.player.logic.addInt();
           elements.inteligence.counterNumber.textContent = playerObj.stats.int;
           elements.freePnts.textContent = playerObj.stats.free;
-        audio.currentTime = 0;
+          audio.currentTime = 0;
           audio.play();
         });
-        elements.inteligence.minusBtn.addEventListener('click', () => { 
-          scene.player.logic.rmInt() 
+        elements.inteligence.minusBtn.addEventListener('click', () => {
+          scene.player.logic.rmInt();
           elements.inteligence.counterNumber.textContent = playerObj.stats.int;
           elements.freePnts.textContent = playerObj.stats.free;
-        audio.currentTime = 0;
-          audio.play();
-        });
-        
-        elements.dex.plusBtn.addEventListener('click', () => { 
-          scene.player.logic.addDex() 
-          elements.dex.counterNumber.textContent = playerObj.stats.dex;
-          elements.freePnts.textContent = playerObj.stats.free;
-        audio.currentTime = 0;
+          audio.currentTime = 0;
           audio.play();
         });
 
-        elements.dex.minusBtn.addEventListener('click', () => { 
-          scene.player.logic.rmDex() 
+        elements.dex.plusBtn.addEventListener('click', () => {
+          scene.player.logic.addDex();
           elements.dex.counterNumber.textContent = playerObj.stats.dex;
           elements.freePnts.textContent = playerObj.stats.free;
-        audio.currentTime = 0;
+          audio.currentTime = 0;
+          audio.play();
+        });
+
+        elements.dex.minusBtn.addEventListener('click', () => {
+          scene.player.logic.rmDex();
+          elements.dex.counterNumber.textContent = playerObj.stats.dex;
+          elements.freePnts.textContent = playerObj.stats.free;
+          audio.currentTime = 0;
           audio.play();
         });
 
         elements.submitBtn.addEventListener('click', () => {
-          scene.player.data.name = elements.nameInput.value; 
+          scene.player.data.name = elements.nameInput.value;
           onSubmit(scene.player.data);
         });
-      }
+      },
 
-    }
+    };
     return { render, addControllerOn };
   };
   return { CreateDOM };

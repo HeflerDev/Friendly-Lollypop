@@ -1,4 +1,4 @@
-const create = require('../create');
+import { create } from '../createNew';
 
 test('test', () => {
   expect(create.newPlayer('Sample'))

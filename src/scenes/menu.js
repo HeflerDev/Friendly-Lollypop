@@ -24,6 +24,5 @@ export default class Menu extends Phaser.Scene {
 
     const btns = this.dom.render.menu();
     this.dom.addControllerOn.menu(btns);
-
   }
 }
