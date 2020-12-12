@@ -212,29 +212,29 @@ const domModule = (() => {
         let audio = new Audio(AudioFile);
         
         elements.force.plusBtn.addEventListener('click', () => { 
-          playerObj.addFor();
-          elements.force.counterNumber.textContent = playerObj.stats.for;
-          elements.freePnts.textContent = playerObj.stats.free;
+          scene.player.logic.addFor();
+          elements.force.counterNumber.textContent = scene.player.data.stats.for;
+          elements.freePnts.textContent = scene.player.data.stats.free;
         audio.currentTime = 0;
           audio.play();
         });
         elements.force.minusBtn.addEventListener('click', () => { 
-          playerObj.rmFor() 
-          elements.force.counterNumber.textContent = playerObj.stats.for;
-          elements.freePnts.textContent = playerObj.stats.free;
+          scene.player.logic.rmFor() 
+          elements.force.counterNumber.textContent = scene.player.data.stats.for;
+          elements.freePnts.textContent = scene.player.data.stats.free;
         audio.currentTime = 0;
           audio.play();
         });
 
         elements.inteligence.plusBtn.addEventListener('click', () => { 
-          playerObj.addInt() 
+          scene.player.logic.addInt() 
           elements.inteligence.counterNumber.textContent = playerObj.stats.int;
           elements.freePnts.textContent = playerObj.stats.free;
         audio.currentTime = 0;
           audio.play();
         });
         elements.inteligence.minusBtn.addEventListener('click', () => { 
-          playerObj.rmInt() 
+          scene.player.logic.rmInt() 
           elements.inteligence.counterNumber.textContent = playerObj.stats.int;
           elements.freePnts.textContent = playerObj.stats.free;
         audio.currentTime = 0;
@@ -242,14 +242,15 @@ const domModule = (() => {
         });
         
         elements.dex.plusBtn.addEventListener('click', () => { 
-          playerObj.addDex() 
+          scene.player.logic.addDex() 
           elements.dex.counterNumber.textContent = playerObj.stats.dex;
           elements.freePnts.textContent = playerObj.stats.free;
         audio.currentTime = 0;
           audio.play();
-        } );
+        });
+
         elements.dex.minusBtn.addEventListener('click', () => { 
-          playerObj.rmDex() 
+          scene.player.logic.rmDex() 
           elements.dex.counterNumber.textContent = playerObj.stats.dex;
           elements.freePnts.textContent = playerObj.stats.free;
         audio.currentTime = 0;
@@ -257,8 +258,8 @@ const domModule = (() => {
         });
 
         elements.submitBtn.addEventListener('click', () => {
-          playerObj.name = elements.nameInput.value; 
-          onSubmit(playerObj);
+          scene.player.data.name = elements.nameInput.value; 
+          onSubmit(scene.player.data);
         });
       }
 

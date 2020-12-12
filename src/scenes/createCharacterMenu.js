@@ -11,7 +11,7 @@ export default class CreateCharacter extends Phaser.Scene {
   }
 
   preload() {
-    this.player = createNew.Player();
+    this.player = actorModule.PlayableActor(createNew.Player(), this);
     this.audio = new Audio(Sound);
   }
 
@@ -24,14 +24,14 @@ export default class CreateCharacter extends Phaser.Scene {
     this.dom.render.container(width/2, 0, 'game-menu');
     
     const elements = this.dom.render.createCharacterTab();
-    this.dom.addControllerOn.createCharacterTab(elements, this.player, (playerObj) => {
-      createNewPlayerData(playerObj)
+    this.dom.addControllerOn.createCharacterTab(elements, this.player.data, (playerObj) => {
+      createNewPlayerData(this.player.data)
         .then(() => { 
           console.log(playerObj);
           console.log(JSON.parse(JSON.stringify(playerObj)));
           this.audio.currentTime = 0;
           this.audio.play();
-          this.scene.start('cave-stage', playerObj);
+          this.scene.start('cave-stage', this.player.data);
         })
         .catch((err) => { this.dom.render.errorMsg('error-container', err)});
     });
