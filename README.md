@@ -29,12 +29,49 @@ is still being implemented.
 
 The game is hosted on heroku, so to play just click [here](https://bats-and-caves.herokuapp.com/dist/).
 
-It features a platform turn-based game.
-The game hud contains several items: The moves left, the Hp and the score counter.
-Every move you do, including attack, use one of your moves, and only reset when the turn end. Every turn you end and enemy you kill,increment your score.
-But beware: When you turn ends it's the enemy time to play.
-Use WASD to move, if the character blink, means it was'nt wasted any move because it was invalid.
-When near an enemy, SPACE to attack, and when there is no more moves, HOLD ENTER to end the turn.
+#### System
+
+The game is turn-based, and each player will have it's turn to make a move/attack/interact. <br>
+When creating a new character, the player will have to choose between 3 Stats: <br>
+![](gifs/menu.gif)
+
+- **Force**: Increase both player damage and defense.
+- **Intelligence**: Increase the player Xp gained.
+- **Dex**: Increase the number of moves the player can do in a turn.
+
+Since the game is under development, more features will be released.
+
+#### HUD
+
+The main menu has 4 entries:
+* **New Game** Create a new character
+* **Load Game** Loads an pre-created character
+* **Instructions** Leads to this page
+* **Credits** Leads to credits screen
+
+- In game there is informations about the player on the top. <br>
+![](gifs/bar.gif)
+
+#### Movement
+
+- Use WASD to move, and ENTER to end the turn. <br>
+![](gifs/movement.gif)
+
+- If the move is invalid (like trying to move where there is a wall or trying to attack while in the air) <br>
+the character will blink white. <br>
+![](gifs/invalid_move.gif)
+
+#### Combat
+
+- If you are near an enemy, use SPACE to attack him. The confirmation of the attack will make the enemy blink WHITE.
+![](gifs/attack.gif)
+
+- When your turn ends it's the enemy time to make a move. If he gets close enough it will attack you. <br>
+If he succeed, your character will blink RED and you will take some damage. <br>
+![](gifs/take_damage.gif)<br>
+
+- If your health reaches 0, you will die and the game will end.
+![](gifs/die.gif)
 
 ### To Make Changes
 
