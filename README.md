@@ -63,7 +63,7 @@ the character will blink white. <br>
 
 #### Combat
 
-- If you are near an enemy, use SPACE to attack him. The confirmation of the attack will make the enemy blink WHITE.
+- If you are near an enemy, use SPACE to attack him. The confirmation of the attack will make the enemy blink WHITE. <br>
 ![](gifs/attack.gif)
 
 - When your turn ends it's the enemy time to make a move. If he gets close enough it will attack you. <br>
