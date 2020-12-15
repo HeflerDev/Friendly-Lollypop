@@ -70,7 +70,7 @@ the character will blink white. <br>
 If he succeed, your character will blink RED and you will take some damage. <br>
 ![](gifs/take_damage.gif)<br>
 
-- If your health reaches 0, you will die and the game will end.
+- If your health reaches 0, you will die and the game will end. <br>
 ![](gifs/die.gif)
 
 ### To Make Changes
