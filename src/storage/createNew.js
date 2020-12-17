@@ -35,22 +35,6 @@ const createNew = (() => {
       rightHand: {},
     },
 
-    gainXp(amount) {
-      const ceiling = this.level * 5;
-      this.xp += amount;
-      if (this.xp >= ceiling) {
-        const rest = this.xp - ceiling;
-        this.levelUp();
-        this.xp += rest;
-      }
-    },
-
-    lootItem(item) {
-      if (this.inventory.items.length >= this.inventory.size) {
-        this.inventory.push(item);
-      }
-    },
-
   });
 
   const SmallAnimal = (key) => ({
