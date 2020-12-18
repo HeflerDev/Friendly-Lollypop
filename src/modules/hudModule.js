@@ -54,4 +54,4 @@ const hudModule = (() => {
   return { Hud };
 })();
 
-export default hudModule;
+module.exports = hudModule;
