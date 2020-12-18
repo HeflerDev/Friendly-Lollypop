@@ -16,7 +16,7 @@ describe('creating new layer', () => {
       };
     },
   };
-  /// /////////////////////
+
   const level = layerModule.Layer(scene).grid;
 
   test('get position block position diference', () => {
