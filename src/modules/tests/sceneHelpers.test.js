@@ -1,14 +1,13 @@
 import sceneHelpers from '../sceneHelpers';
 
 describe('on use', () => {
-
   const scene = {
     scale: {
       width: 600,
-      height: 800
+      height: 800,
     },
-  }
-  
+  };
+
   test('get measures', () => {
     expect(sceneHelpers.getMeasures(scene).width).toBe(600);
     expect(sceneHelpers.getMeasures(scene).height).toBe(800);
