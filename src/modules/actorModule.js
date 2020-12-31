@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import RogueSprite from '../assets/characters/rogue.png';
-import apiData from '../storage/apiData';
 
 const actorModule = (() => {
   const PlayableActor = (dataObj, scene) => {
@@ -9,8 +8,8 @@ const actorModule = (() => {
     const logic = {
       trackHealth(playerBody, callback) {
         if (data.situation.currentHp <= 0) {
-          if (data.situation.isAlive) { 
-            playerBody.anims.play('die', true); 
+          if (data.situation.isAlive) {
+            playerBody.anims.play('die', true);
             this.die();
             setTimeout(() => {
               callback();

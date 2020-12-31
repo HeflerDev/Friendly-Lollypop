@@ -100,8 +100,8 @@ export default class CaveStage extends Phaser.Scene {
       await apiData.postData({
         user: this.player.data.name,
         score: this.score,
-      })
-      this.dom.render.container(500, this.scale.y / 2, 'score-board')
+      });
+      this.dom.render.container(500, this.scale.y / 2, 'score-board');
       const btns = this.dom.render.scoreBoardMenu();
       this.dom.addControllerOn.scoreBoardMenu(btns);
     });

@@ -1,5 +1,4 @@
 const apiData = (() => {
-
   const apiKey = 'EXVyZJ61yFONDqsxQDEV';
 
   const apiUrl = `https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/${apiKey}/scores/`;
@@ -8,24 +7,22 @@ const apiData = (() => {
     const response = await fetch(url);
     if (response.ok) {
       return response.json();
-    } else {
-      throw new Error(`No valid response from the server`);
     }
+    throw new Error('No valid response from the server');
   }
 
   async function postData(data, url = apiUrl) {
     const response = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
-      headers: {"Content-type": "application/json; charset=UTF-8"}
+      headers: { 'Content-type': 'application/json; charset=UTF-8' },
     });
-    const content = await response.json();
-    console.log(JSON.stringify(data));
+    await response.json();
   }
 
   return {
     getData,
-    postData
+    postData,
   };
 })();
 

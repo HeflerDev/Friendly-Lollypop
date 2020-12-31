@@ -209,7 +209,7 @@ const domModule = (() => {
         });
 
         btns.instructionsBtn.addEventListener('click', () => {
-          const url = 'https://github.com/HeflerDev/Microverse-Project-Phaser-Game/tree/feature/main#how-to-play'
+          const url = 'https://github.com/HeflerDev/Microverse-Project-Phaser-Game/tree/feature/main#how-to-play';
           window.open(url, '_blank');
         });
 
@@ -226,13 +226,13 @@ const domModule = (() => {
       },
 
       scoreBoardMenu(btns) {
-        btns.resetBtn.addEventListener('click', () => { 
+        btns.resetBtn.addEventListener('click', () => {
           const playerData = scene.player.data;
-          
+
           playerData.situation.currentHp = 10;
           playerData.situation.moves = playerData.stats.dex;
           playerData.situation.isAlive = true;
-          scene.score = 0 ;
+          scene.score = 0;
           if (scene.enemies.length > 0) {
             scene.enemies.forEach((foe) => {
               foe.body.destroy();
@@ -242,11 +242,11 @@ const domModule = (() => {
         });
         btns.menuBtn.addEventListener('click', () => {
           const playerData = scene.player.data;
-          
+
           playerData.situation.currentHp = 10;
           playerData.situation.moves = playerData.stats.dex;
           playerData.situation.isAlive = true;
-          scene.score = 0 ;
+          scene.score = 0;
           if (scene.enemies.length > 0) {
             scene.enemies.forEach((foe) => {
               foe.body.destroy();
