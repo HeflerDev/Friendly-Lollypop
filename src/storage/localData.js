@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 const localData = (() => {
   /* eslint-disable */
   async function createNewPlayerData(obj) {

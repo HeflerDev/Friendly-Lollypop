@@ -1,5 +1,6 @@
 import AudioFile from '../assets/sound/Menu/increase.mp3';
 import localData from '../storage/localData';
+import apiData from '../storage/apiData';
 
 const domModule = (() => {
   const CreateDOM = (scene) => {
@@ -18,7 +19,7 @@ const domModule = (() => {
           border: 'solid pink 2px',
         },
       },
-      // Helper to render an HTML element
+
       element(elementId, parent = null, type = 'div', elementClass) {
         const div = document.createElement(type);
         if (elementId) {
@@ -77,6 +78,41 @@ const domModule = (() => {
           listeners.push([box, character.name]);
         });
         return listeners;
+      },
+
+      scoreBoardMenu() {
+        const scoreNames = [];
+        const scorePoints = [];
+        this.element('board-container', 'score-board');// game-menu
+        this.element('board-header-container', 'board-container', 'div', 'box');
+        this.element('board-header', 'board-header-container', 'h2').textContent = 'Score Board';
+        this.element('scores-container', 'board-container', 'div', 'box');
+        apiData.getData().then((data) => {
+          const sortable = [];
+          const results = data.result;
+          results.forEach((item) => { sortable.push([item.user, item.score]); });
+          const sorted = sortable.sort((a, b) => b[1] - a[1]);
+
+          sorted.splice(0, 10).forEach((item, index) => {
+            const [user, score] = item;
+            this.element(`scores-${index}`, 'scores-container', 'div', ['minibox', 'around']);
+            scoreNames.push(this.element(`scores-name-${index}`, `scores-${index}`, 'div'));
+            scorePoints.push(this.element(`scores-points-${index}`, `scores-${index}`, 'div'));
+            scoreNames[index].textContent = user;
+            scorePoints[index].textContent = score;
+          });
+        });
+
+        this.element('btns-container', 'board-container', 'div', ['box']);
+        this.element('btns-c', 'btns-container', 'div', ['minibox', 'around']);
+        const resetBtn = this.element('btns-reset-game', 'btns-c', 'button');
+        const menuBtn = this.element('btns-menu-game', 'btns-c', 'button');
+        resetBtn.textContent = 'Reset';
+        menuBtn.textContent = 'Menu';
+        return {
+          resetBtn,
+          menuBtn,
+        };
       },
 
       menuText(txt, returnBtn) {
@@ -173,14 +209,8 @@ const domModule = (() => {
         });
 
         btns.instructionsBtn.addEventListener('click', () => {
-          updateMenu();
-          scene.dom.render.menuText('Instructions Goes here', (btn) => {
-            btn.addEventListener('click', () => {
-              updateMenu();
-              const newbtns = scene.dom.render.menu();
-              this.menu(newbtns);
-            });
-          });
+          const url = 'https://github.com/HeflerDev/Microverse-Project-Phaser-Game/tree/feature/main#how-to-play'
+          window.open(url, '_blank');
         });
 
         btns.creditsBtn.addEventListener('click', () => {
@@ -192,6 +222,38 @@ const domModule = (() => {
               this.menu(newbtns);
             });
           });
+        });
+      },
+
+      scoreBoardMenu(btns) {
+        btns.resetBtn.addEventListener('click', () => { 
+          const playerData = scene.player.data;
+          
+          playerData.situation.currentHp = 10;
+          playerData.situation.moves = playerData.stats.dex;
+          playerData.situation.isAlive = true;
+          scene.score = 0 ;
+          if (scene.enemies.length > 0) {
+            scene.enemies.forEach((foe) => {
+              foe.body.destroy();
+            });
+          }
+          scene.scene.restart();
+        });
+        btns.menuBtn.addEventListener('click', () => {
+          const playerData = scene.player.data;
+          
+          playerData.situation.currentHp = 10;
+          playerData.situation.moves = playerData.stats.dex;
+          playerData.situation.isAlive = true;
+          scene.score = 0 ;
+          if (scene.enemies.length > 0) {
+            scene.enemies.forEach((foe) => {
+              foe.body.destroy();
+            });
+          }
+          scene.scene.restart();
+          scene.scene.start('menu-scene');
         });
       },
 

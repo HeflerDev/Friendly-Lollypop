@@ -1,22 +1,21 @@
 import Phaser from 'phaser';
 import RogueSprite from '../assets/characters/rogue.png';
+import apiData from '../storage/apiData';
 
 const actorModule = (() => {
   const PlayableActor = (dataObj, scene) => {
     const data = dataObj;
 
     const logic = {
-      trackHealth(playerBody) {
+      trackHealth(playerBody, callback) {
         if (data.situation.currentHp <= 0) {
-          if (data.situation.isAlive) { playerBody.anims.play('die', true); }
-          this.die();
-          setTimeout(() => {
-            scene.scene.restart();
-            data.situation.isAlive = true;
-            data.situation.moves = data.stats.dex;
-            data.situation.currentHp = scene.player.data.stats.maxHp;
-            scene.score = 0;
-          }, 3000);
+          if (data.situation.isAlive) { 
+            playerBody.anims.play('die', true); 
+            this.die();
+            setTimeout(() => {
+              callback();
+            }, 1000);
+          }
         }
       },
 

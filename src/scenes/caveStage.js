@@ -1,10 +1,12 @@
 import Phaser from 'phaser';
 
+import domModule from '../modules/domModule';
 import actorModule from '../modules/actorModule';
 import foesModule from '../modules/foesModule';
 import stagesModule from '../modules/stagesModule';
 import layerModule from '../modules/layerModule';
 import hudModule from '../modules/hudModule';
+import apiData from '../storage/apiData';
 
 export default class CaveStage extends Phaser.Scene {
   constructor() {
@@ -12,7 +14,7 @@ export default class CaveStage extends Phaser.Scene {
     this.score = 0;
     // Checkers
     this.isColliding = false;
-    this.currentFo = null;
+    this.currentFoe = null;
   }
 
   init(data) {
@@ -21,6 +23,7 @@ export default class CaveStage extends Phaser.Scene {
     this.stage = stagesModule.Stage(this).cave;
     this.enemies = [];
     this.hud = hudModule.Hud(this.player.data, this);
+    this.dom = domModule.CreateDOM(this);
   }
 
   preload() {
@@ -93,6 +96,14 @@ export default class CaveStage extends Phaser.Scene {
     this.hud.elements.update();
     this.isColliding = false;
     this.currentFoe = null;
-    this.player.logic.trackHealth(this.player.character.body);
+    this.player.logic.trackHealth(this.player.character.body, async () => {
+      await apiData.postData({
+        user: this.player.data.name,
+        score: this.score,
+      })
+      this.dom.render.container(500, this.scale.y / 2, 'score-board')
+      const btns = this.dom.render.scoreBoardMenu();
+      this.dom.addControllerOn.scoreBoardMenu(btns);
+    });
   }
 }
