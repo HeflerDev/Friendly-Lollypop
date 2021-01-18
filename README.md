@@ -95,7 +95,7 @@ Pull requests and contributions are all welcome, for any aditional feedback mail
 
 ### Author
 
-* **Alex Hefler** - *Initial work* - [HeflerDev](https://github.com/heflerdev)
+* **H Hefler** - *Initial work* - [HeflerDev](https://github.com/heflerdev)
 
 ### License
 
