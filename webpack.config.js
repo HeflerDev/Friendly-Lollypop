@@ -1,4 +1,7 @@
+/* eslint-disable */
+
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './src/index.js',
@@ -9,13 +12,29 @@ module.exports = {
     },
     module: {
         rules: [
+          {
+            test: /\.s[ac]ss$/i,
+            use: [
+              'style-loader',
+              'css-loader',
+              'sass-loader',
+            ],
+          },
+          {
+            test: /\.mp3$/,
+            loader: 'file-loader'
+          },
             {
-                test: /\.s[ac]ss$/i,
+                test: /\.(png|svg|jpg|gif)$/,
                 use: [
-                    'style-loader',
-                    'css-loader',
-                    'sass-loader',
+                    'file-loader',
                 ],
             },
         ],
-};
+    },
+    resolve: {
+      fallback: {
+        fs: false
+      }
+    }
+}
